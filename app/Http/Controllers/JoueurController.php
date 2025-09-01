@@ -11,13 +11,13 @@ class JoueurController extends Controller
 {
     public function index() {
         $joueurs = Joueur::all();
-        return view('joueurs.index', compact('joueurs'));
+        return view('joueurs/index', compact('joueurs'));
     }
 
     public function create() {
         $positions = Position::all();
         $equipes = Equipe::all();
-        return view('joueurs.create', compact('positions', 'equipes'));
+        return view('joueurs/create', compact('positions', 'equipes'));
     }
 
     public function store(Request $request) {
@@ -38,7 +38,7 @@ class JoueurController extends Controller
         // On va vérifier au début si l'équipe choisie est complète ou non
         $equipe = Equipe::find($request->equipe);
         if ($equipe->joueur()->count() >= 15) {
-            return redirect('joueurs.create')->with('error', 'Cette équipe est déjà complète');
+            return redirect()->route('joueurs.create')->with('error', 'Cette équipe est déjà complète');
         }
 
         $joueur = new Joueur();
@@ -75,13 +75,13 @@ class JoueurController extends Controller
 
     public function show($id) {
         $joueur = Joueur::find($id);
-        return view('joueurs.create.$id', compact('joueur'));
+        return view('joueurs/create.$id', compact('joueur'));
     }
 
     public function edit($id) {
         $joueur = Joueur::find($id);
         $positions = Position::all();
-        return view ('joueurs.edit', compact('joueur', 'positions'));
+        return view ('joueurs/edit', compact('joueur', 'positions'));
     }
 
     public function update($id, Request $request) {
@@ -92,7 +92,7 @@ class JoueurController extends Controller
         if ($request->equipe != $joueur->equipe_id) {
             $equipe = Equipe::find($request->equipe);
             if ($equipe->joueur()->count() >=15) {
-                return redirect('joueurs.create')->with('error', 'Cette équipe est déjà complète');
+                return redirect()->route('joueurs.create')->with('error', 'Cette équipe est déjà complète');
             }
         }
         
@@ -130,7 +130,7 @@ class JoueurController extends Controller
             ]);
         }
 
-        return redirect('joueurs.index')->with('success', 'Joueur/joueuse mis-e à jour avec succès !');
+        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse mis-e à jour avec succès !');
     }
     
 }
