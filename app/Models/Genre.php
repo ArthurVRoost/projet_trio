@@ -11,4 +11,8 @@ class Genre extends Model
     public function joueur(){
         return $this->hasMany(Joueur::class);
     }
+
+    public function equipe(){
+        return $this->hasMany(Equipe::class);
+    }
 }
