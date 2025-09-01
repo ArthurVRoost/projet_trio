@@ -10,6 +10,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+                    <p>TEST DE MERGE ET PULL</p>
+                    <p>2e tes</p>
                 </div>
             </div>
         </div>
