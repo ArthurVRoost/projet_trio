@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContinentController;
+use App\Http\Controllers\EquipeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -38,4 +39,13 @@ Route::get('/genres/{id}/edit', [GenreController::class, 'edit'])->name('genres.
 Route::put('/genres/{id}', [GenreController::class, 'update'])->name('genres.update');
 Route::delete('/genres/{id}', [GenreController::class, 'destroy'])->name('genres.destroy');
 
+
+// ROUTE EQUIPE
+Route::get('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
+Route::get('/equipes/create', [EquipeController::class, 'create'])->name('equipes.create');
+Route::post('/equipes', [EquipeController::class, 'store'])->name('equipes.store');
+Route::get('/equipes/{equipe}', [EquipeController::class, 'show'])->name('equipes.show');
+Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('equipes.edit');
+Route::put('/equipes/{equipe}', [EquipeController::class, 'update'])->name('equipes.update');
+Route::delete('/equipes/{equipe}', [EquipeController::class, 'destroy'])->name('equipes.destroy');
 require __DIR__.'/auth.php';
