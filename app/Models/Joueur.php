@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Joueur extends Model
 {
+
+    use HasFactory;
     protected $fillable = ['nom', 'prenom', 'age', 'tel', 'email', 'pays', 'position_id', 'equipe_id', 'genre_id', 'user_id'];
 
     public function equipe(){
