@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             ContinentSeeder::class,
             GenreSeeder::class,
             EquipeSeeder::class,
+            PositionSeeder::class,
+            JoueurSeeder::class,
         ]);
     }
 }
