@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ContinentSeeder::class,
             GenreSeeder::class,
+            EquipeSeeder::class,
         ]);
     }
 }

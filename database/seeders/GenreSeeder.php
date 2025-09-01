@@ -16,6 +16,7 @@ class GenreSeeder extends Seeder
         Genre::insert([
             ['sexe' => 'homme'],
             ['sexe' => 'femme'],
+            ['sexe' => 'mixte'],
         ]);
     }
 }
