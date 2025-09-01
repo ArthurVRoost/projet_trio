@@ -69,13 +69,13 @@ class JoueurController extends Controller
             ]);
         }
 
-        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
+        return redirect()->route('joueurs.create')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
 
     }
 
     public function show($id) {
         $joueur = Joueur::find($id);
-        return view('joueurs/create.$id', compact('joueur'));
+        return view('joueurs/show', compact('joueur'));
     }
 
     public function edit($id) {
@@ -133,4 +133,9 @@ class JoueurController extends Controller
         return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse mis-e à jour avec succès !');
     }
     
+    public function destroy ($id) {
+        $joueur = Joueur::find($id)->delete();
+
+        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse supprimé-e avec succès !');
+    }
 }

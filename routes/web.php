@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContinentController;
 use App\Http\Controllers\EquipeController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\JoueurController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,3 +50,12 @@ Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('e
 Route::put('/equipes/{equipe}', [EquipeController::class, 'update'])->name('equipes.update');
 Route::delete('/equipes/{equipe}', [EquipeController::class, 'destroy'])->name('equipes.destroy');
 require __DIR__.'/auth.php';
+
+// ROUTE JOUEUR
+Route::get('/joueurs', [JoueurController::class, 'index'])->name('joueurs.index');
+Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
+Route::post('/joueurs', [JoueurController::class, 'store'])->name('joueurs.store');
+Route::get('/joueurs/{id}', [JoueurController::class, 'show'])->name('joueurs.show');
+Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
+Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
+Route::delete('/joueurs/{id}', [JoueurController::class, 'destroy'])->name('joueurs.destroy');
