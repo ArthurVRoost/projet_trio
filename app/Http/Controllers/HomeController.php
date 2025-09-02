@@ -25,4 +25,9 @@ class HomeController extends Controller
         $roles = Role::all();
         return view('welcome', compact('equipes', 'genres', 'continents', 'joueurs', 'positions', 'roles', 'equipesEurope','equipesMondial', 'joueursEurope', 'joueursMonde'));
     }
+
+    public function teams(){
+        $equipes = Equipe::all();
+        return view('teams', compact('equipes'));
+    }
 }
