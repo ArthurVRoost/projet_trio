@@ -3,12 +3,11 @@
 use App\Http\Controllers\ContinentController;
 use App\Http\Controllers\EquipeController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'home']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

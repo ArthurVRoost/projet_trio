@@ -68,7 +68,7 @@ class JoueurController extends Controller
                 'src' => $path
             ]);
         }
-
+        
         return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
 
     }

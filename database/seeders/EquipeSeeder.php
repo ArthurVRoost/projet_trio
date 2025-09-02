@@ -22,6 +22,14 @@ class EquipeSeeder extends Seeder
                 'continent_id' => 1,
 
             ],
+            [
+                'nom' => 'RSC Anderlecht',
+                'ville' => 'Anderlecht',
+                'logo' => 'storage/logo/RSCA.png',
+                'genre_id' => 3,
+                'continent_id' => 1,
+
+            ],
              [
                 'nom' => 'FC Tokyo',
                 'ville' => 'Tokyo',
