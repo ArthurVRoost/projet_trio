@@ -1,61 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Consignes
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Objectif
 
-## About Laravel
+Choisis un sport d'équipe pour lequel crée la palteforme suivante:
+Concevoir une App full backend Laravel permettant de :
+créer des équipes rattachées à un continent ;
+gérer jusqu’à 15 joueurs par équipe (par défaut), avec quotas par position selon le sport ;
+Les position sont au minimum de 3 + un position réserve. Le nombre de joueur max par position est 4.
+Si un en ajoutant un joueur a une équipe, la position est full, il passe automatiquement en réserve.
+Attention, si il n'y a plus de place a sa position ou en réserve dans une équipe il ne peut pas être ajouté a l'équipe.
+Dans ce cas le joueurs est simplement sans équipe.
+Minimum 35 joueurs en seed (factories autorisé)
+Minimum 5 équipes
+classer les équipes et joueurs par genre (H/F/Mixte) ;
+Donc on peut ajouter que des joueurs dont le genre correspond a l'équipe.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+afficher des messages flash lorsque les contraintes ne sont pas respectées (ex. quota de position atteint).
+Front minimal : pages listes/détails en Blade suffisent. Le back est réservé aux comptes authentifiés ; les invités (guests) peuvent uniquement consulter les listes.
+Une nav avec (home, players, teams, login/register)
+Un carroussel cohérent avec le thème.
+Une section avec toutes les équipes européene
+Une section avec 8 joueurs random d'équipe européene
+Une section avec 4 équipe random hors europes
+Une section avec 8 joueuse random hors europe
+une section avec 4 joueurs ou joueuse sans équipe
+Un footer propre et carré
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Page players: (menu dropdown: Masculin ou féminin)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Soit une liste avec un show, soit des cards avec un show.
+Show du joueur:
+nom, prenom, age, pays, position, equipe (si équipe, sinon un string indique joueur sans équipe)
 
-## Learning Laravel
+Page teams: (dropdown selon continent) au clique sur teams directement, on est sur un all
+Une liste avec les équipe, au show de l'équipe:
+On voit les joueurs dans l'équipe avec leurs différentes positions.
+Si on clique sur un joueurs, on arrive sur son show.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Niveau backend:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+appliquer des règles d’autorisation (utilisateur, coach, admin) avec gates et middlewares ;
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Données de départ (migrations fournies)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Tu pars de ces tables (adaptation autorisée si nécessaire) :
 
-### Premium Partners
+-   role: id, role
+-   user: nom, prenom, email, password, role_id
+-   continents: id, nom,
+-   genres: id, genre (Homme, Femme)
+-   equipes: id, nom (unique), ville, pays, continent_id (FK), genre_id(FK)->nullable(null pour les equipe mixte), logo(img ou url)
+-   postions: id, position,
+-   photos: id, src, joueur_id
+-   joueurs: id, nom, prenom, age, phone, email, pays, position_id (FK), equipe_id (FK nullable, set null), genre_id (FK), user_id(FK)->nullable
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Authentification (Breeze) & rôles de compte
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Installe Laravel Breeze (stack Blade).
 
-## Code of Conduct
+# CRUDS
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   le guest ne peut rien créer, ni modifier ni supprimer, il a juste accès au front.
 
-## Security Vulnerabilities
+-   le role user a accès au back et peut uniqement créer des joueurs, son back est restrient a ses droits. il peut modifier et supprimer uniquement ses propre joueurs qu'il a crée.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   le role coach peut créer des joueurs et des équipes. Il peut uniquement modifier et supprimer ses propre équipes. Son back est restreint a ses droits (cela signifie qu'il ne voit que créate player et create team, il n'as plus d'options...)
 
-## License
+-   le role admin peut tout créer: player et team, tout modifier, même les joueurs et les équipes crée par les coachs et les users. Il peut également modifier le rôle des user ou les supprimer. Si un user est supprimé, son contenu reste...
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 1. Créer rôle Guest
+
+-   Okayge
+
+## 2. Créer CRUD Guest
+
+## 3. Créer CRUD User
+
+## 4. Créer CRUD Coach
+
+## 5. Créer CRUD Admin

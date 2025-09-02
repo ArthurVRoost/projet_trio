@@ -11,13 +11,13 @@ class JoueurController extends Controller
 {
     public function index() {
         $joueurs = Joueur::all();
-        return view('joueurs/index', compact('joueurs'));
+        return view('joueurs.index', compact('joueurs'));
     }
 
     public function create() {
         $positions = Position::all();
         $equipes = Equipe::all();
-        return view('joueurs/create', compact('positions', 'equipes'));
+        return view('joueurs.create', compact('positions', 'equipes'));
     }
 
     public function store(Request $request) {
@@ -75,13 +75,13 @@ class JoueurController extends Controller
 
     public function show($id) {
         $joueur = Joueur::find($id);
-        return view('joueurs/create.$id', compact('joueur'));
+        return view('joueurs.create.$id', compact('joueur'));
     }
 
     public function edit($id) {
         $joueur = Joueur::find($id);
         $positions = Position::all();
-        return view ('joueurs/edit', compact('joueur', 'positions'));
+        return view ('joueurs.edit', compact('joueur', 'positions'));
     }
 
     public function update($id, Request $request) {
