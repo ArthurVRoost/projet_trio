@@ -18,14 +18,19 @@
             <td>{{ $user->role->role }}</td>
             <td>{{ $user->role_id }}</td>
             <td>
-                <a href="{{route('users.update', $user)}}"
-                    ><button class="bg-cyan-400 rounded px-5">Modifier le rôle</button></a
-                >
+                <a href="{{ route('users.edit', $user) }}">
+                    <button class="bg-cyan-400 rounded px-5">Modifier le rôle</button>
+                </a>
             </td>
             <td>
-                <a href="{{route('users.destroy', $user)}}"
-                    ><button class="bg-red-400 rounded px-5">Supprimer l'utilisateur</button></a
+                <form
+                    action="{{ route('users.destroy', $user) }}"
+                    method="POST"
+                    onsubmit="return confirm('Supprimer utilisateur: {{$user->prenom}}?');"
                 >
+                    @csrf @method('DELETE')
+                    <button type="submit" class="bg-red-400 rounded px-5">Supprimer l'utilisateur</button>
+                </form>
             </td>
         </tr>
         @endforeach

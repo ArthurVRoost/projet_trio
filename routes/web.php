@@ -3,14 +3,16 @@
 use App\Http\Controllers\ContinentController;
 use App\Http\Controllers\EquipeController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoueurController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -23,17 +25,21 @@ Route::middleware('auth')->group(function () {
 });
 
 // Middleware pour la gestion des users par rôle Admin
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::patch('/users/{user}', [UserController::class,'update'])->name('users.update');
-    Route::delete('/users{user}', [UserController::class,'destroy'])->name('users.destroy');
-});
+// Route::middleware(['AdminMiddleware'])->group(function () {
+//     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+//     Route::patch('/users/{user}', [UserController::class,'update'])->name('users.update');
+//     Route::delete('/users{user}', [UserController::class,'destroy'])->name('users.destroy');
+// });
+
+Route::get('/users', [UserController::class, 'index'])->middleware(AdminMiddleware::class)->name('users.index');
+Route::patch('/users/{id}', [UserController::class, 'update'])->middleware(AdminMiddleware::class)->name('users.update');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware(AdminMiddleware::class)->name('users.destroy');
 
 // ROUTE USER
 Route::get('/users', [UserController::class,'index'])->name('users.index');
 Route::get('/users/create', [UserController::class,'create'])->name('users.create');
 Route::post('/users', [UserController::class,'store'])->name('users.store');
-Route::get('/users/{id}', [UserController::class,'show'])->name('users.show');
+// Route::get('/users/{id}', [UserController::class,'show'])->name('users.show');
 Route::get('/users/{id}/edit', [UserController::class,'edit'])->name('users.edit');
 Route::put('/users/{id}', [UserController::class,'update'])->name('users.update');
 Route::delete('/users/{id}', [UserController::class,'destroy'])->name('users.destroy');
