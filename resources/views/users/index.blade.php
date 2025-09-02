@@ -19,7 +19,7 @@
             <td>{{ $user->role_id }}</td>
             <td>
                 <a href="{{ route('users.edit', $user) }}">
-                    <button class="bg-cyan-400 rounded px-5">Modifier le rôle</button>
+                    <button class="bg-cyan-400 rounded px-3">Modifier le rôle</button>
                 </a>
             </td>
             <td>
@@ -29,7 +29,7 @@
                     onsubmit="return confirm('Supprimer utilisateur: {{$user->prenom}}?');"
                 >
                     @csrf @method('DELETE')
-                    <button type="submit" class="bg-red-400 rounded px-5">Supprimer l'utilisateur</button>
+                    <button type="submit" class="bg-red-400 rounded px-3">Supprimer l'utilisateur</button>
                 </form>
             </td>
         </tr>
