@@ -15,3 +15,14 @@ body{
     text-decoration: none;
     color: white;
 }
+
+#carouselExampleAutoplaying {
+  height: 80vh;
+}
+
+#carouselExampleAutoplaying .carousel-inner,
+#carouselExampleAutoplaying .carousel-item,
+#carouselExampleAutoplaying .carousel-item img {
+  height: 100%;
+  object-fit: cover; 
+}

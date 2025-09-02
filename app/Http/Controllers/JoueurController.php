@@ -75,13 +75,13 @@ class JoueurController extends Controller
 
     public function show($id) {
         $joueur = Joueur::find($id);
-        return view('joueurs/create.$id', compact('joueur'));
+        return view('joueurs.show', compact('joueur'));
     }
 
     public function edit($id) {
         $joueur = Joueur::find($id);
         $positions = Position::all();
-        return view ('joueurs/edit', compact('joueur', 'positions'));
+        return view ('joueurs.edit', compact('joueur', 'positions'));
     }
 
     public function update($id, Request $request) {
