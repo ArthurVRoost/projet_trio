@@ -1,2 +1,17 @@
 
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import './home.css';
+body{
+    background-color: black;
+}
+.navbar{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background-color: black;
+}
+
+.navbar a{
+    text-decoration: none;
+    color: white;
+}

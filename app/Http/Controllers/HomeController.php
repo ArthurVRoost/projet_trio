@@ -14,11 +14,12 @@ class HomeController extends Controller
 {
     public function home(){
         $equipes = Equipe::all();
+        $equipesEurope = Equipe::where('continent_id', 1)->get();
         $genres = Genre::all();
         $continents = Continent::all();
         $joueurs = Joueur::all();
         $positions = Position::all();
         $roles = Role::all();
-        return view('welcome', compact('equipes', 'genres', 'continents', 'joueurs', 'positions', 'roles'));
+        return view('welcome', compact('equipes', 'genres', 'continents', 'joueurs', 'positions', 'roles', 'equipesEurope'));
     }
 }
