@@ -86,6 +86,19 @@ class JoueurController extends Controller
 
     public function update($id, Request $request) {
 
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'age' => 'required|integer|min:10|max:100',
+            'tel' => 'nullable|string|max:20',
+            'email' => 'required|email|unique:joueurs,email',
+            'pays' => 'required|string|max:255',
+            'position' => 'required',
+            'equipe' => 'required',
+            'genre' => 'required',
+            'src' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
         $joueur = Joueur::find($id);
 
         // On vérifie aussi ici qu'il reste de la place dans l'équipe (et que l'équipe choisie est différente de l'équipe actuelle)
