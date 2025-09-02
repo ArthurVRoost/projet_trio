@@ -22,12 +22,12 @@
 </body>
 </html>
 
-<section>
+<section class="pt-4">
     <div class="container">
         <div class="row">
             @foreach ($joueurs as $joueur)
                 <div class="col-4 mb-4">
-                    <div class="card h-100" style="width: 18rem;">
+                    <div class="card" style="width: 18rem;">
                         {{-- Ici, ajouter une image par défaut aka un placeholder s'il n'y a pas de photo uploadée --}}
                         <img src="{{ asset($joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
                         <div class="card-body">
