@@ -72,16 +72,30 @@ Installe Laravel Breeze (stack Blade).
 
 -   le role admin peut tout créer: player et team, tout modifier, même les joueurs et les équipes crée par les coachs et les users. Il peut également modifier le rôle des user ou les supprimer. Si un user est supprimé, son contenu reste...
 
+## Middlewares:
+
+### Admin
+
+-   Okayge
+
+### Coach
+
+-   Okayge
+
+### User
+
+-   Okayge
+
+---
+
 ## 1. Créer rôle Guest
 
 -   Okayge
 
-## 2. Créer CRUD Guest
+## 2. Créer CRUD User
 
-## 3. Créer CRUD User
+## 3. Créer CRUD Coach
 
-## 4. Créer CRUD Coach
+## 4. Créer CRUD Admin
 
-## 5. Créer CRUD Admin
-
--   Okayge
+-   Okayge => Gestion User
