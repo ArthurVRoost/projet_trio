@@ -1,4 +1,12 @@
 @extends('layouts.app') @section('content')
+<div class="mt-5">
+    <a
+        href="{{ route('users.create') }}"
+        class="bg-green-500 text-white font-bold py-2 px-4 rounded"
+    >
+        Créer un nouvel utilisateur
+    </a>
+</div>
 <table border="1" cellpadding="8" cellspacing="0">
     <thead>
         <tr>
