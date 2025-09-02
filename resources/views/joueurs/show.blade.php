@@ -43,9 +43,7 @@
                         <div class="d-flex gap-2">
                             {{-- Edit --}}
                             <div>
-                                <form action="">
-                                    <button type="submit" class="btn btn-info">Edit</button>
-                                </form>
+                                <a href="{{route('joueurs.edit', $joueur->id)}}" class="btn btn-info">Edit</a>
                             </div>
                             {{-- Delete --}}
                             <div>

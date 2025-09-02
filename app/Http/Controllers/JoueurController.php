@@ -62,7 +62,7 @@ class JoueurController extends Controller
         if ($request->hasFile('src')) {
             $image = $request->file('src');
             $image_name = time().'_'.$image->getClientOriginalName();
-            $path = $request->file('src')->storeAs('joueurs_photos', $image_name, 'public');
+            $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
 
             $joueur->photo->create([
                 'src' => $path
@@ -126,7 +126,7 @@ class JoueurController extends Controller
         if ($request->hasFile('src')) {
             $image = $request->file('src');
             $image_name = time().'_'.$image->getClientOriginalName();
-            $path = $request->file('src')->storeAs('joueurs_photos', $image_name, 'public');
+            $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
         }
 
         // S'il y en a déjà une, on l'update
