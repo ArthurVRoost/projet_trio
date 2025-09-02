@@ -8,6 +8,7 @@ use App\Models\Genre;
 use App\Models\Joueur;
 use App\Models\Position;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -19,6 +20,7 @@ class HomeController extends Controller
         $joueurs = Joueur::all();
         $positions = Position::all();
         $roles = Role::all();
-        return view('welcome', compact('equipes', 'genres', 'continents', 'joueurs', 'positions', 'roles'));
+        $users = User::all();
+        return view('welcome', compact('equipes', 'genres', 'continents', 'joueurs', 'positions', 'roles', 'users'));
     }
 }

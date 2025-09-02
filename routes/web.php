@@ -5,6 +5,7 @@ use App\Http\Controllers\EquipeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\JoueurController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +21,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// ROUTE USER
+Route::get('/users', [UserController::class,'index'])->name('users.index');
+Route::get('/users/create', [UserController::class,'create'])->name('users.create');
+Route::post('/users', [UserController::class,'store'])->name('users.store');
+Route::get('/users/{id}', [UserController::class,'show'])->name('users.show');
+Route::get('/users/{id}/edit', [UserController::class,'edit'])->name('users.edit');
+Route::put('/users/{id}', [UserController::class,'update'])->name('users.update');
+Route::delete('/users/{id}', [UserController::class,'destroy'])->name('users.destroy');
 
 // ROUTE CONTINENT
 Route::get('/continents', [ContinentController::class, 'index'])->name('continents.index');
