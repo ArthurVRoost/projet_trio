@@ -22,6 +22,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Middleware pour la gestion des users par rôle Admin
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}', [UserController::class,'update'])->name('users.update');
+    Route::delete('/users{user}', [UserController::class,'destroy'])->name('users.destroy');
+});
+
 // ROUTE USER
 Route::get('/users', [UserController::class,'index'])->name('users.index');
 Route::get('/users/create', [UserController::class,'create'])->name('users.create');
