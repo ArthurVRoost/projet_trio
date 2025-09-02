@@ -38,7 +38,7 @@
                             </div>
                             <p class="card-text">Equipe : {{ $joueur->equipe->nom ?? 'Sans équipe' }}</p>
                             <p class="card-text text-capitalize">Position : {{ $joueur->position->position ?? 'Sans position' }}</p>
-                            <a href="#" class="btn btn-primary">Voir plus</a>
+                            <a href="{{route('joueurs.show', $joueur->id)}}" class="btn btn-primary">Voir plus</a>
                         </div>
                     </div>
                 </div>

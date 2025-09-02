@@ -18,6 +18,7 @@ class JoueurSeeder extends Seeder
             ->each(function ($joueur) use ($photos1, $photos2) {
                 $src = $joueur->genre_id == 1 ? collect($photos1)->random() : collect($photos2)->random();
 
+                // on 'crée' ensuite la photo liée au joueur
                 $joueur->photo()->create([
                     'src' => 'storage/joueurs_photos/' . $src,
                 ]);
