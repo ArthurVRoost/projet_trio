@@ -153,9 +153,7 @@
                         <!-- Photo -->
                         <div class="mb-3">
                             <label for="src" class="form-label">Photo du joueur</label>
-                            <input type="file" class="form-control @error('src') is-invalid @enderror" 
-                                   id="src" name="src" accept="image/jpeg,image/png,image/jpg,image/gif">
-                            <div class="form-text">Formats acceptés: JPEG, PNG, JPG, GIF. Taille max: 2MB</div>
+                            <input type="file" class="form-control @error('src') is-invalid @enderror" id="src" name="src" accept="image/jpeg,image/png,image/jpg,image/gif">
                             @error('src')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
