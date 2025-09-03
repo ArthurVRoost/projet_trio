@@ -1,0 +1,65 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>Ajouter une équipe</h1>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Erreurs :</strong>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('equipes.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom de l'équipe</label>
+            <input type="text" name="nom" id="nom" class="form-control" value="{{ old('nom') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="ville" class="form-label">Ville</label>
+            <input type="text" name="ville" id="ville" class="form-control" value="{{ old('ville') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="genre_id" class="form-label">Genre</label>
+            <select name="genre_id" id="">
+                <option value="">Sélectionne un genre</option>
+                @foreach ($genres as $genre)
+                    <option value="{{ $genre->id }}" {{ old('genre_id') == $genre->id ? 'selected' : '' }}>
+                        {{ $genre->sexe }}
+                    </option>
+                @endforeach
+            </select>
+            <small class="text-muted">Laissez vide si non applicable</small>
+        </div>
+
+        <div class="mb-3">
+            <label for="continent_id" class="form-label">Continent</label>
+            <select name="continent_id" id="">
+    <option value="">Sélectionne un continent</option>
+    @foreach ($continents as $con)
+        <option value="{{ $con->id }}" {{ old('continent_id') == $con->id ? 'selected' : '' }}>
+            {{ $con->nom }}
+        </option>
+    @endforeach
+</select>
+        </div>
+
+        <div class="mb-3">
+            <label for="logo" class="form-label">Logo</label>
+            <input type="file" name="logo" id="logo" class="form-control" accept="image/*" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Créer</button>
+        <a href="{{ route('equipes.index') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+@endsection

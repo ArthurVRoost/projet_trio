@@ -15,6 +15,14 @@ class EquipeSeeder extends Seeder
     {
         Equipe::insert([
             [
+                'nom' => 'Sans Equipe',
+                'ville' => 'Pas de ville',
+                'logo' => 'storage/logo/FA.png',
+                'genre_id' => 3,
+                'continent_id' => 1,
+
+            ],
+            [
                 'nom' => 'FC Barcelone',
                 'ville' => 'Barcelone',
                 'logo' => 'storage/logo/FCBarcelone.png',

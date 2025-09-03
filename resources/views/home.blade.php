@@ -112,6 +112,17 @@
 
 {{-- 4 JOUEURS/EUSE SANS EQUIPE --}}
 <h2 class="mt-3 ms-5" style="color: white">Joueurs/Joueuses sans équipe</h2>
-<section></section>
+<section>
+    @foreach ($joueursFA as $fa)
+    <a href="{{ route('joueurs.show', $fa->id) }}" class="cardEurope">
+        <div class="cardEurope">
+            <img src="{{ asset('storage/' . $fa->photo->src) }}" width="350" height="260" alt="{{ $fa->nom }}" />
+            <h3>{{ $fa->nom }}</h3>
+            <h3>{{ $fa->prenom }}</h3>
+            <p>Joue pour {{ $fa->equipe->nom }}</p>
+        </div>
+    </a>
+    @endforeach
+</section>
 
 @endsection
