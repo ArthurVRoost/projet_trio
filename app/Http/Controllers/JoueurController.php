@@ -74,7 +74,7 @@ class JoueurController extends Controller
         // le auth()->id() renvoit l'id du user s'il est connecté, sinon null :
         $joueur->user_id = auth()->id();
 
-        // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger.
+        // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger (le joueur doit exister avant la photo dans cette relation one2one) - s'il n'y avait pas de FK, le save aurait été à la fin.
         $joueur->save();
 
         // Ajouter la photo :
@@ -83,6 +83,8 @@ class JoueurController extends Controller
             $image_name = time().'_'.$image->getClientOriginalName();
             $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
 
+            // comme il y a une FK, on accède à 'src' qui se trouve dans la migration 'photos' via la fonction photo() se trouvant dans le modèle, et on crée la photo.
+            // Il n'y a pas de colonne 'photo' dans la migration 'Joueurs', du coup on passe par la relation photo() pour créer un enregistrement de la photo dans la colonne 'src'. on crée une nouvelle photo et on la lie directement au joueur.
             $joueur->photo()->create([
                 'src' => $path
             ]);

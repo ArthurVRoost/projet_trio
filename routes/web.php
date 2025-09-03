@@ -54,7 +54,7 @@ require __DIR__.'/auth.php';
 // ROUTE JOUEUR
 Route::get('/joueurs', [JoueurController::class, 'index'])->name('joueurs.index');
 Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
-Route::post('/joueurs', [JoueurController::class, 'store'])->name('joueurs.store');
+Route::post('/joueurs/store', [JoueurController::class, 'store'])->name('joueurs.store');
 Route::get('/joueurs/{id}', [JoueurController::class, 'show'])->name('joueurs.show');
 Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
 Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
