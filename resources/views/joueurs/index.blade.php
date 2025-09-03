@@ -24,7 +24,7 @@
                 <div class="card" style="width: 18rem">
                     {{-- Ici, ajouter une image par défaut aka un placeholder s'il n'y a pas de photo uploadée --}}
                     <img
-                        src="{{ asset('storage/'.$joueur->photo->src ?? 'default.png') }}"
+                        src="{{ $joueur->photo ? asset('storage/'.$joueur->photo->src) : asset('default.png') }}"
                         class="card-img-top"
                         alt="..."
                     />

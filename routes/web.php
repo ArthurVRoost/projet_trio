@@ -15,7 +15,9 @@ Route::get('/', function () {
 
 // Routes pour Guests
 Route::get('/joueurs', [JoueurController::class,'index'])->name('joueurs.index');
+Route::get('/joueurs/create', [JoueurController::class,'create'])->name('joueurs.create');
 Route::get('/joueurs/{id}', [JoueurController::class,'show'])->name('joueurs.show');
+Route::post('/joueurs', [JoueurController::class,'store'])->name('joueurs.store');
 Route::get('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
 Route::get('/equipes/{equipe}', [EquipeController::class, 'show'])->name('equipes.show');
 
@@ -35,7 +37,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'user'])->group(function () {
     // Gestion des joueurs
     Route::get('/joueurs/create', [JoueurController::class,'create'])->name('joueurs.create');
-    Route::post('/joueurs', [JoueurController::class,'store'])->name('joueurs.store');
+    Route::post('/joueurs/store', [JoueurController::class,'store'])->name('joueurs.store');
     Route::get('/joueurs/{id}/edit', [JoueurController::class,'edit'])->name('joueurs.edit');
     Route::put('/joueurs/{id}', [JoueurController::class,'update'])->name('joueurs.update');
     Route::delete('/joueurs/{id}', [JoueurController::class,'destroy'])->name('joueurs.destroy');
@@ -58,7 +60,23 @@ Route::middleware(['auth', 'coach'])->group(function () {
 });
 
 // Routes pour rôle Admin
-Route::middleware(['auth', 'admin'])->group(function () {
+    Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/joueurs', [JoueurController::class, 'index'])->name('joueurs.index');
+    Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
+    Route::post('/joueurs/store', [JoueurController::class, 'store'])->name('joueurs.store');
+    Route::get('/joueurs/{id}', [JoueurController::class, 'show'])->name('joueurs.show');
+    Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
+    Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
+    Route::delete('/joueurs/{id}', [JoueurController::class, 'destroy'])->name('joueurs.destroy');
+
+    // Gestion des équipes
+    Route::post('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
+    Route::get('/equipes/create', [EquipeController::class, 'create'])->name('equipes.create');
+    Route::post('/equipes', [EquipeController::class, 'store'])->name('equipes.store');
+    Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('equipes.edit');
+    Route::put('/equipes/{equipe}', [EquipeController::class, 'update'])->name('equipes.update');
+    Route::delete('/equipes/{equipe}', [EquipeController::class, 'destroy'])->name('equipes.destroy');
+    
     // Gestion des utilisateurs
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
