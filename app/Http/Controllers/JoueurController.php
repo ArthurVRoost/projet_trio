@@ -93,12 +93,12 @@ class JoueurController extends Controller
     }
 
     public function show($id) {
-        $joueur = Joueur::find($id);
+        $joueur = Joueur::with(['photo', 'genre', 'equipe', 'position'])->find($id);
         return view('joueurs/show', compact('joueur'));
     }
 
     public function edit($id) {
-        $joueur = Joueur::find($id);
+        $joueur = Joueur::with(['photo', 'genre', 'equipe', 'position'])->find($id);
         $positions = Position::all();
         $genres = Genre::whereBetween('id', [1,2])->get();
         $equipes = Equipe::all();

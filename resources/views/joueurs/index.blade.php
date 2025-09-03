@@ -24,9 +24,9 @@
                 <div class="card" style="width: 18rem">
                     {{-- Ici, ajouter une image par défaut aka un placeholder s'il n'y a pas de photo uploadée --}}
                     <img
-                        src="{{ $joueur->photo ? asset('storage/'.$joueur->photo->src) : asset('default.png') }}"
+                        src="{{ $joueur->photo ? asset('storage/'.$joueur->photo->src) : 'https://via.placeholder.com/300x200/cccccc/666666?text=No+Photo' }}"
                         class="card-img-top"
-                        alt="..."
+                        alt="{{ $joueur->nom }}"
                     />
                     <div class="card-body">
                         <h5 class="card-title">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>

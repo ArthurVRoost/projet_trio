@@ -62,7 +62,7 @@
         <div class="cardEurope">
             {{-- {{ $joueur->photo->src }} --}}
             <img
-                src="{{ asset('storage/' . $joueur->photo->src) }}"
+                src="{{ $joueur->photo ? asset('storage/' . $joueur->photo->src) : 'https://via.placeholder.com/350x260/cccccc/666666?text=No+Photo' }}"
                 width="350"
                 height="260"
                 alt="{{ $joueur->nom }}"
@@ -97,10 +97,10 @@
     <a href="{{ route('joueurs.show', $joueurMon->id) }}" class="cardEurope">
         <div class="cardEurope">
             <img
-                src="{{ asset('storage/' . $joueurMon->photo->src) }}"
+                src="{{ $joueurMon->photo ? asset('storage/' . $joueurMon->photo->src) : 'https://via.placeholder.com/350x260/cccccc/666666?text=No+Photo' }}"
                 width="350"
                 height="260"
-                alt="{{ $joueur->nom }}"
+                alt="{{ $joueurMon->nom }}"
             />
             <h3>{{ $joueurMon->nom }}</h3>
             <h3>{{ $joueurMon->prenom }}</h3>
@@ -116,7 +116,12 @@
     @foreach ($joueursFA as $fa)
     <a href="{{ route('joueurs.show', $fa->id) }}" class="cardEurope">
         <div class="cardEurope">
-            <img src="{{ asset('storage/' . $fa->photo->src) }}" width="350" height="260" alt="{{ $fa->nom }}" />
+            <img
+                src="{{ $fa->photo ? asset('storage/' . $fa->photo->src) : 'https://via.placeholder.com/350x260/cccccc/666666?text=No+Photo' }}"
+                width="350"
+                height="260"
+                alt="{{ $fa->nom }}"
+            />
             <h3>{{ $fa->nom }}</h3>
             <h3>{{ $fa->prenom }}</h3>
             <p>Joue pour {{ $fa->equipe->nom }}</p>

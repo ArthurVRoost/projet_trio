@@ -24,9 +24,9 @@ class HomeController extends Controller
 
         $equipesEurope = Equipe::where('continent_id', 1)->get();
         $equipesMondial = Equipe::whereBetween('continent_id', [2,7])->get();
-        $joueursFA = Joueur::where('equipe_id', 1)->get();
-        $joueursMonde = Joueur::whereHas('equipe', function ($query) {$query->whereBetween('continent_id', [2,7]);})->with('equipe')->take(8)->get();
-        $joueursEurope = Joueur::whereHas('equipe', function ($query) {$query->where('continent_id', 1);})->with('equipe')->take(8)->get();
+        $joueursFA = Joueur::where('equipe_id', 1)->with(['equipe', 'photo'])->get();
+        $joueursMonde = Joueur::whereHas('equipe', function ($query) {$query->whereBetween('continent_id', [2,7]);})->with(['equipe', 'photo'])->take(8)->get();
+        $joueursEurope = Joueur::whereHas('equipe', function ($query) {$query->where('continent_id', 1);})->with(['equipe', 'photo'])->take(8)->get();
         
         return view('home', compact('equipes', 'genres', 'continents', 'joueurs', 'positions', 'roles', 'users', 'equipesEurope', 'equipesMondial', 'joueursMonde', 'joueursEurope', 'joueursFA'));
     }

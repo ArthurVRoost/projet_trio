@@ -19,9 +19,9 @@
             <div class="col-12 d-flex justify-content-center mb-3">
                 <div class="card" style="width: 22rem">
                     <img
-                        src="{{  asset('storage/'.$joueur->photo->src ?? 'default.png') }}"
+                        src="{{ $joueur->photo ? asset('storage/' . $joueur->photo->src) : 'https://via.placeholder.com/400x300/cccccc/666666?text=No+Photo' }}"
                         class="card-img-top"
-                        alt="..."
+                        alt="{{ $joueur->nom }}"
                     />
                     <div class="card-body">
                         <h5 class="card-title">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
