@@ -45,18 +45,19 @@ class JoueurController extends Controller
             'nom.string'     => 'Le nom doit être une chaîne de caractères.',
             'prenom.required'=> 'Le prénom est obligatoire.',
             'prenom.string'  => 'Le prénom doit être une chaîne de caractères.',
-            'mail.required'  => "L'adresse mail est obligatoire.",
-            'mail.email'     => "L'adresse mail doit être valide."
+            'email.required'  => "L'adresse mail est obligatoire.",
+            'email.email'     => "L'adresse mail doit être valide."
         ]);
 
         // On va vérifier au début si l'équipe choisie est complète ou non
+
         $equipe = Equipe::find($request->equipe);
         if ($equipe->joueur()->count() >= 15) {
             return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
         }
 
         // vérifier que le sexe du joueur / joueuse correspond
-        if ($equipe->genre_id != $request->genre) {
+        if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
             return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
@@ -119,17 +120,16 @@ class JoueurController extends Controller
             'position' => 'required',
             'equipe' => 'required',
             'genre' => 'required',
-            'src' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'src' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ],
     [
-            'src.required'   => "L'image est obligatoire.",
             'src.image'      => "Le fichier doit être une image valide.",
             'nom.required'   => 'Le nom est obligatoire.',
             'nom.string'     => 'Le nom doit être une chaîne de caractères.',
             'prenom.required'=> 'Le prénom est obligatoire.',
             'prenom.string'  => 'Le prénom doit être une chaîne de caractères.',
-            'mail.required'  => "L'adresse mail est obligatoire.",
-            'mail.email'     => "L'adresse mail doit être valide."
+            'email.required'  => "L'adresse mail est obligatoire.",
+            'email.email'     => "L'adresse mail doit être valide."
         ]);
 
         $joueur = Joueur::find($id);
@@ -137,13 +137,15 @@ class JoueurController extends Controller
         // On vérifie aussi ici qu'il reste de la place dans l'équipe (et que l'équipe choisie est différente de l'équipe actuelle)
         if ($request->equipe != $joueur->equipe_id) {
             $equipe = Equipe::find($request->equipe);
-            if ($equipe->joueur()->count() >=15) {
-                return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
+            if ($equipe->joueur()->count() >= 15) {
+                return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Cette équipe est déjà complète');
             }
+        } else {
+            $equipe = $joueur->equipe;
         }
         // verif sexe
-        if ($equipe->genre_id != $request->genre) {
-            return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
+        if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
+            return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
         
