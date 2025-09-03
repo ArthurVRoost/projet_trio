@@ -118,6 +118,12 @@ Installe Laravel Breeze (stack Blade).
 
 ---
 
+## Blades
+
+-   Users
+
+---
+
 ## CRUD & Gestion
 
 ### 1. User
