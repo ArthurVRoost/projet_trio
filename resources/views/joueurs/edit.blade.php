@@ -133,7 +133,7 @@
                                         @foreach($genres as $genre)
                                             <option value="{{ $genre->id }}" 
                                                 {{ (old('genre') ?? $joueur->genre_id) == $genre->id ? 'selected' : '' }}>
-                                                {{ $genre->nom ?? $genre->name ?? $genre->libelle ?? $genre->designation }}
+                                                {{ $genre->sexe }}
                                             </option>
                                         @endforeach
                                     @endif
@@ -151,7 +151,7 @@
                                     @foreach($positions as $position)
                                         <option value="{{ $position->id }}" 
                                             {{ (old('position') ?? $joueur->position_id) == $position->id ? 'selected' : '' }}>
-                                            {{ $position->nom ?? $position->name ?? $position->libelle ?? $position->designation }}
+                                            {{ $position->position }}
                                         </option>
                                     @endforeach
                                 </select>

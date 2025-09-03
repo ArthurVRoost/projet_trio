@@ -86,7 +86,9 @@ class JoueurController extends Controller
     public function edit($id) {
         $joueur = Joueur::find($id);
         $positions = Position::all();
-        return view ('joueurs/edit', compact('joueur', 'positions'));
+        $genres = Genre::whereBetween('id', [1,2])->get();
+        $equipes = Equipe::all();
+        return view ('joueurs/edit', compact('joueur', 'positions', 'genres', 'equipes'));
     }
 
     public function update($id, Request $request) {
