@@ -1,4 +1,6 @@
+
 <?php
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ContinentController;
 use App\Http\Controllers\EquipeController;
@@ -7,82 +9,69 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoueurController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
-// Route home
+// Page d'accueil
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
-// Routes pour Guests
-Route::get('/joueurs', [JoueurController::class,'index'])->name('joueurs.index');
-Route::get('/joueurs/{id}', [JoueurController::class,'show'])->name('joueurs.show');
+// Routes publiques (accessibles à tous)
+Route::get('/joueurs', [JoueurController::class, 'index'])->name('joueurs.index');
+Route::get('/joueurs/{id}', [JoueurController::class, 'show'])->name('joueurs.show');
 Route::get('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
 Route::get('/equipes/{equipe}', [EquipeController::class, 'show'])->name('equipes.show');
 
-// Routes auth
+// Routes protégées par authentification
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-// Routes pour rôle User
+// Joueurs : création, édition, suppression (réservé aux users, coachs, admins)
 Route::middleware(['auth', 'user'])->group(function () {
-    // Gestion des joueurs
-    Route::get('/joueurs/create', [JoueurController::class,'create'])->name('joueurs.create');
-    Route::post('/joueurs/store', [JoueurController::class,'store'])->name('joueurs.store');
-    Route::get('/joueurs/{id}/edit', [JoueurController::class,'edit'])->name('joueurs.edit');
-    Route::put('/joueurs/{id}', [JoueurController::class,'update'])->name('joueurs.update');
-    Route::delete('/joueurs/{id}', [JoueurController::class,'destroy'])->name('joueurs.destroy');
-});
-
-// Routes pour rôle Coach
-Route::middleware(['auth', 'coach'])->group(function () {
-    // Gestion des joueurs
-    Route::get('/joueurs/create', [JoueurController::class,'create'])->name('joueurs.create');
-    Route::post('/joueurs', [JoueurController::class,'store'])->name('joueurs.store');
-    Route::get('/joueurs/{id}/edit', [JoueurController::class,'edit'])->name('joueurs.edit');
-    Route::put('/joueurs/{id}', [JoueurController::class,'update'])->name('joueurs.update');
-    Route::delete('/joueurs/{id}', [JoueurController::class,'destroy'])->name('joueurs.destroy');
-    // Gestion des équipes
-    Route::get('/equipes/create', [EquipeController::class, 'create'])->name('equipes.create');
-    Route::post('/equipes', [EquipeController::class, 'store'])->name('equipes.store');
-    Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('equipes.edit');
-    Route::put('/equipes/{equipe}', [EquipeController::class, 'update'])->name('equipes.update');
-    Route::delete('/equipes/{equipe}', [EquipeController::class, 'destroy'])->name('equipes.destroy');
-});
-
-// Routes pour rôle Admin
-    Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/joueurs', [JoueurController::class, 'index'])->name('joueurs.index');
     Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
     Route::post('/joueurs/store', [JoueurController::class, 'store'])->name('joueurs.store');
-    Route::get('/joueurs/{id}', [JoueurController::class, 'show'])->name('joueurs.show');
     Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
     Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
     Route::delete('/joueurs/{id}', [JoueurController::class, 'destroy'])->name('joueurs.destroy');
-
-    // Gestion des équipes
-    Route::post('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
+});
+Route::middleware(['auth', 'coach'])->group(function () {
+    Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
+    Route::post('/joueurs', [JoueurController::class, 'store'])->name('joueurs.store');
+    Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
+    Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
+    Route::delete('/joueurs/{id}', [JoueurController::class, 'destroy'])->name('joueurs.destroy');
+    // Equipes : création, édition, suppression
     Route::get('/equipes/create', [EquipeController::class, 'create'])->name('equipes.create');
     Route::post('/equipes', [EquipeController::class, 'store'])->name('equipes.store');
     Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('equipes.edit');
     Route::put('/equipes/{equipe}', [EquipeController::class, 'update'])->name('equipes.update');
     Route::delete('/equipes/{equipe}', [EquipeController::class, 'destroy'])->name('equipes.destroy');
-    
-    // Gestion des utilisateurs
+});
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Joueurs
+    Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
+    Route::post('/joueurs/store', [JoueurController::class, 'store'])->name('joueurs.store');
+    Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
+    Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
+    Route::delete('/joueurs/{id}', [JoueurController::class, 'destroy'])->name('joueurs.destroy');
+    // Equipes
+    Route::get('/equipes/create', [EquipeController::class, 'create'])->name('equipes.create');
+    Route::post('/equipes', [EquipeController::class, 'store'])->name('equipes.store');
+    Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('equipes.edit');
+    Route::put('/equipes/{equipe}', [EquipeController::class, 'update'])->name('equipes.update');
+    Route::delete('/equipes/{equipe}', [EquipeController::class, 'destroy'])->name('equipes.destroy');
+    // Utilisateurs
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/users/{id}/edit', [UserController::class,'edit'])->name('users.edit');
     Route::patch('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    
-    // Gestion des continents
+    // Continents
     Route::get('/continents', [ContinentController::class, 'index'])->name('continents.index');
     Route::get('/continents/create', [ContinentController::class, 'create'])->name('continents.create');
     Route::post('/continents', [ContinentController::class, 'store'])->name('continents.store');
@@ -90,8 +79,7 @@ Route::middleware(['auth', 'coach'])->group(function () {
     Route::get('/continents/{id}/edit', [ContinentController::class, 'edit'])->name('continents.edit');
     Route::put('/continents/{id}', [ContinentController::class, 'update'])->name('continents.update');
     Route::delete('/continents/{id}', [ContinentController::class, 'destroy'])->name('continents.destroy');
-    
-    // Gestion des genres
+    // Genres
     Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
     Route::get('/genres/create', [GenreController::class, 'create'])->name('genres.create');
     Route::post('/genres', [GenreController::class, 'store'])->name('genres.store');
@@ -100,4 +88,5 @@ Route::middleware(['auth', 'coach'])->group(function () {
     Route::put('/genres/{id}', [GenreController::class, 'update'])->name('genres.update');
     Route::delete('/genres/{id}', [GenreController::class, 'destroy'])->name('genres.destroy');
 });
+
 require __DIR__.'/auth.php';
