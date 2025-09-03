@@ -200,14 +200,14 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <a href="{{ route('joueurs.index') }}" class="btn btn-secondary me-2">
-                                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                                    Retour à la liste
                                 </a>
                                 <a href="{{ route('joueurs.show', $joueur->id) }}" class="btn btn-info">
-                                    <i class="fas fa-eye"></i> Voir le joueur
+                                    Voir le joueur
                                 </a>
                             </div>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Mettre à jour
+                                Mettre à jour
                             </button>
                         </div>
                     </form>

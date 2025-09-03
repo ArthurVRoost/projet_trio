@@ -134,20 +134,19 @@ class JoueurController extends Controller
             $image = $request->file('src');
             $image_name = time().'_'.$image->getClientOriginalName();
             $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
-        }
 
-        // S'il y en a déjà une, on l'update
-        if ($joueur->photo) {
-            $joueur->photo()->update([
-                'src' => $path
-            ]); 
-        }
-
-        // S'il n'y en a pas encore, on la create
-        else {
-            $joueur->photo()->create([
-                'src' => $path
-            ]);
+            // S'il y a déjà une photo, on l'update
+            if ($joueur->photo) {
+                $joueur->photo()->update([
+                    'src' => $path
+                ]); 
+            }
+            // S'il n'y en a pas encore, on la create
+            else {
+                $joueur->photo()->create([
+                    'src' => $path
+                ]);
+            }
         }
 
         return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse mis-e à jour avec succès !');
