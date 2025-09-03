@@ -25,7 +25,9 @@
 <section class="pt-4">
     <div class="container">
         <div class="row">
-            <a href="{{route('joueurs.create')}}" class="btn">Create joueur</a>
+            <div class="d-flex justify-content-center mb-4">
+                <a href="{{route('joueurs.create')}}" class="btn btn-info">Create joueur</a>
+            </div>
             @foreach ($joueurs as $joueur)
                 <div class="col-4 mb-4">
                     <div class="card" style="width: 18rem;">

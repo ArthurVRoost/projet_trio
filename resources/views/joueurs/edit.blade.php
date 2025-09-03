@@ -84,7 +84,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="age" class="form-label">Âge <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control @error('age') is-invalid @enderror" 
-                                       id="age" name="age" value="{{ old('age', $joueur->age) }}" min="10" max="100" required>
+                                       id="age" name="age" value="{{ old('age', $joueur->age) }}" min="10" max="40" required>
                                 @error('age')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -186,9 +186,8 @@
                             <input type="file" class="form-control @error('src') is-invalid @enderror" 
                                    id="src" name="src" accept="image/jpeg,image/png,image/jpg,image/gif">
                             <div class="form-text">
-                                Formats acceptés: JPEG, PNG, JPG, GIF. Taille max: 2MB
                                 @if($joueur->photo && $joueur->photo->src)
-                                    <br><em>Laissez vide pour conserver la photo actuelle</em>
+                                    <em>Laissez vide pour conserver la photo actuelle</em>
                                 @endif
                             </div>
                             @error('src')

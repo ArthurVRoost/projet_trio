@@ -27,7 +27,7 @@ class JoueurController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
-            'age' => 'required|integer|min:10|max:100',
+            'age' => 'required|integer|min:10|max:40',
             'tel' => 'required|string|max:20',
             'email' => 'required|email|unique:joueurs,email',
             'pays' => 'required|string|max:255',
@@ -96,7 +96,7 @@ class JoueurController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
-            'age' => 'required|integer|min:10|max:100',
+            'age' => 'required|integer|min:10|max:40',
             'tel' => 'nullable|string|max:20',
             'email' => 'required|email|unique:joueurs,email,'.$id,
             'pays' => 'required|string|max:255',
