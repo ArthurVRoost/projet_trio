@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
+    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
 // Routes pour rôle User
 Route::middleware(['auth', 'user'])->group(function () {
+    // Gestion des joueurs
     Route::get('/joueurs/create', [JoueurController::class,'create'])->name('joueurs.create');
     Route::post('/joueurs', [JoueurController::class,'store'])->name('joueurs.store');
     Route::get('/joueurs/{id}/edit', [JoueurController::class,'edit'])->name('joueurs.edit');
@@ -42,6 +43,13 @@ Route::middleware(['auth', 'user'])->group(function () {
 
 // Routes pour rôle Coach
 Route::middleware(['auth', 'coach'])->group(function () {
+    // Gestion des joueurs
+    Route::get('/joueurs/create', [JoueurController::class,'create'])->name('joueurs.create');
+    Route::post('/joueurs', [JoueurController::class,'store'])->name('joueurs.store');
+    Route::get('/joueurs/{id}/edit', [JoueurController::class,'edit'])->name('joueurs.edit');
+    Route::put('/joueurs/{id}', [JoueurController::class,'update'])->name('joueurs.update');
+    Route::delete('/joueurs/{id}', [JoueurController::class,'destroy'])->name('joueurs.destroy');
+    // Gestion des équipes
     Route::get('/equipes/create', [EquipeController::class, 'create'])->name('equipes.create');
     Route::post('/equipes', [EquipeController::class, 'store'])->name('equipes.store');
     Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('equipes.edit');
