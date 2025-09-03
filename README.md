@@ -85,7 +85,7 @@ Installe Laravel Breeze (stack Blade).
 
 ## Controllers
 
-### UserController.php
+-   UserController | okayge
 
 ---
 
@@ -113,7 +113,7 @@ Installe Laravel Breeze (stack Blade).
 
 ### 1. User
 
--   Okayge
+-   Gestion Joueurs - //
 
 ### 2. Coach
 
