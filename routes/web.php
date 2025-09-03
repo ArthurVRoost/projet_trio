@@ -15,9 +15,7 @@ Route::get('/', function () {
 
 // Routes pour Guests
 Route::get('/joueurs', [JoueurController::class,'index'])->name('joueurs.index');
-Route::get('/joueurs/create', [JoueurController::class,'create'])->name('joueurs.create');
 Route::get('/joueurs/{id}', [JoueurController::class,'show'])->name('joueurs.show');
-Route::post('/joueurs', [JoueurController::class,'store'])->name('joueurs.store');
 Route::get('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
 Route::get('/equipes/{equipe}', [EquipeController::class, 'show'])->name('equipes.show');
 
