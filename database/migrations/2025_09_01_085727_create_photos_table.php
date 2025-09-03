@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->string('src');
-            $table->foreignId('joueur_id')->constrained('joueurs');
+            $table->foreignId('joueur_id')->nullable()->constrained('joueurs')->nullOnDelete();
             $table->timestamps();
         });
     }
