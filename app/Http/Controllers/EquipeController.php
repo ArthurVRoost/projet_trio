@@ -20,11 +20,34 @@ class EquipeController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
-            'ville' => ['required', 'string', 'max:255'],
-            'genre_id' => ['nullable', 'exists:genre,id'],
+            'nom'          => ['required', 'string', 'max:255'],
+            'ville'        => ['required', 'string', 'max:255'],
+            'genre_id'     => ['nullable', 'exists:genre,id'],
             'continent_id' => ['required', 'exists:continents,id'],
-            'logo' => ['required', 'image', 'mimes:jpg,png,jpeg,webp', 'max:2048'],
+            'logo'         => ['required', 'image', 'mimes:jpg,png,jpeg,webp', 'max:2048'],
+        ], [
+            // NOM
+            'nom.required' => 'Le nom est obligatoire.',
+            'nom.string'   => 'Le nom doit être une chaîne de caractères.',
+            'nom.max'      => 'Le nom ne peut pas dépasser 255 caractères.',
+
+            // VILLE
+            'ville.required' => 'La ville est obligatoire.',
+            'ville.string'   => 'La ville doit être une chaîne de caractères.',
+            'ville.max'      => 'La ville ne peut pas dépasser 255 caractères.',
+
+            // GENRE
+            'genre_id.exists' => 'Le genre sélectionné est invalide.',
+
+            // CONTINENT
+            'continent_id.required' => 'Le continent est obligatoire.',
+            'continent_id.exists'   => 'Le continent sélectionné est invalide.',
+
+            // LOGO
+            'logo.required' => 'Le logo est obligatoire.',
+            'logo.image'    => 'Le fichier du logo doit être une image.',
+            'logo.mimes'    => 'Le logo doit être au format JPG, PNG, JPEG ou WEBP.',
+            'logo.max'      => 'Le logo ne peut pas dépasser 2 Mo.',
         ]);
 
         $equipe = new Equipe();
@@ -52,11 +75,34 @@ class EquipeController extends Controller
 
     public function update(Request $request, $id){
         $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
-            'ville' => ['required', 'string', 'max:255'],
-            'genre_id' => ['nullable', 'exists:genres,id'],
+            'nom'          => ['required', 'string', 'max:255'],
+            'ville'        => ['required', 'string', 'max:255'],
+            'genre_id'     => ['nullable', 'exists:genre,id'],
             'continent_id' => ['required', 'exists:continents,id'],
-            'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg,webp', '2048'],
+            'logo'         => ['required', 'image', 'mimes:jpg,png,jpeg,webp', 'max:2048'],
+        ], [
+            // NOM
+            'nom.required' => 'Le nom est obligatoire.',
+            'nom.string'   => 'Le nom doit être une chaîne de caractères.',
+            'nom.max'      => 'Le nom ne peut pas dépasser 255 caractères.',
+
+            // VILLE
+            'ville.required' => 'La ville est obligatoire.',
+            'ville.string'   => 'La ville doit être une chaîne de caractères.',
+            'ville.max'      => 'La ville ne peut pas dépasser 255 caractères.',
+
+            // GENRE
+            'genre_id.exists' => 'Le genre sélectionné est invalide.',
+
+            // CONTINENT
+            'continent_id.required' => 'Le continent est obligatoire.',
+            'continent_id.exists'   => 'Le continent sélectionné est invalide.',
+
+            // LOGO
+            'logo.required' => 'Le logo est obligatoire.',
+            'logo.image'    => 'Le fichier du logo doit être une image.',
+            'logo.mimes'    => 'Le logo doit être au format JPG, PNG, JPEG ou WEBP.',
+            'logo.max'      => 'Le logo ne peut pas dépasser 2 Mo.',
         ]);
 
         $equipe= Equipe::findOrFail($id);
