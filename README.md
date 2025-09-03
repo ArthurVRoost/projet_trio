@@ -111,6 +111,13 @@ Installe Laravel Breeze (stack Blade).
 
 ---
 
+## Routes
+
+-   Group des auth et rôles
+-   Routes pour chaque rôle
+
+---
+
 ## CRUD & Gestion
 
 ### 1. User
