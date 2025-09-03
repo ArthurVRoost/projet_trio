@@ -44,6 +44,7 @@
             @foreach ($joueursEurope as $joueur)
                 <a href="{{ route('joueurs.show', $joueur->id) }}" class="cardEurope">
                     <div class="cardEurope">
+                        {{-- {{ $joueur->photo->src }} --}}
                         <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI9lRck6miglY0SZF_BZ_sK829yiNskgYRUg&s" width="350" height="260" alt="{{ $joueur->nom }}">
                         <h3>{{ $joueur->nom }}</h3>
                         <h3>{{ $joueur->prenom }}</h3>
