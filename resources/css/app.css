@@ -1,3 +1,27 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import './home.css';
+body {
+    background-color: black;
+}
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background-color: black;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+}
+
+#carouselExampleAutoplaying {
+    height: 80vh;
+}
+
+#carouselExampleAutoplaying .carousel-inner,
+#carouselExampleAutoplaying .carousel-item,
+#carouselExampleAutoplaying .carousel-item img {
+    height: 100%;
+    object-fit: cover;
+}
