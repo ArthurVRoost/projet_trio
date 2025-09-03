@@ -62,6 +62,8 @@ Authentification (Breeze) & rôles de compte
 
 Installe Laravel Breeze (stack Blade).
 
+---
+
 # CRUDS
 
 -   le guest ne peut rien créer, ni modifier ni supprimer, il a juste accès au front.
@@ -128,7 +130,7 @@ Installe Laravel Breeze (stack Blade).
 
 ---
 
-## Permissions | navigation.blade.php
+## Permissions | navigation.blade.php => @guest, @canany, @can
 
 ### Guest
 
