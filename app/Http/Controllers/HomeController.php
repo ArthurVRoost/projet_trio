@@ -21,6 +21,12 @@ class HomeController extends Controller
         $positions = Position::all();
         $roles = Role::all();
         $users = User::all();
+
+        $equipesEurope = Equipe::where('continent_id', 1)->get();
+        $equipesMondial = Equipe::whereBetween('continent_id', [2,7])->get();
+        $joueursMonde = Joueur::whereHas('equipe', function ($query) {$query->whereBetween('continent_id', [2,7]);})->with('equipe')->take(8)->get();
+        $joueursEurope = Joueur::whereHas('equipe', function ($query) {$query->where('continent_id', 1);})->with('equipe')->take(8)->get();
+        
         return view('welcome', compact('equipes', 'genres', 'continents', 'joueurs', 'positions', 'roles', 'users'));
     }
 }
