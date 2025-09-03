@@ -9,7 +9,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/teams', [HomeController::class, 'teams'])->name('teams');
+
 
 
 Route::get('/dashboard', function () {

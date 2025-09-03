@@ -2,7 +2,7 @@
 @section('title', 'Equipes')
 
 @section('content')
-
+    <a href="{{ route('equipes.create') }}">cree equipe</a>
     <h2 class="mt-3 ms-5" style="color: white">Toutes les équipes</h2>
         <section class="section1 mt-5">
             @foreach ($equipes as $equipeTout)
