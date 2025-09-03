@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipe;
+use App\Models\Genre;
 use App\Models\Joueur;
 use App\Models\Position;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class JoueurController extends Controller
     public function create() {
         $positions = Position::all();
         $equipes = Equipe::all();
-        return view('joueurs/create', compact('positions', 'equipes'));
+        $genres = Genre::whereBetween('id', [1,2])->get();
+        return view('joueurs/create', compact('positions', 'equipes', 'genres'));
     }
 
     public function store(Request $request) {
@@ -26,7 +28,7 @@ class JoueurController extends Controller
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
             'age' => 'required|integer|min:10|max:100',
-            'tel' => 'nullable|string|max:20',
+            'tel' => 'required|string|max:20',
             'email' => 'required|email|unique:joueurs,email',
             'pays' => 'required|string|max:255',
             'position' => 'required',
@@ -34,6 +36,8 @@ class JoueurController extends Controller
             'genre' => 'required',
             'src' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        // !Ajouter une condition par rapport au sexe!
 
         // On va vérifier au début si l'équipe choisie est complète ou non
         $equipe = Equipe::find($request->equipe);
@@ -52,8 +56,9 @@ class JoueurController extends Controller
         $joueur->position_id = $request->position;
         $joueur->equipe_id = $request->equipe;
         $joueur->genre_id = $request->genre;
-        // ligne à revoir :
-        $joueur->user_id = $request->user()->id;
+        // le auth()->id() renvoit l'id du user s'il est connecté, sinon null :
+        // $joueur->user_id = auth()->id();
+        $joueur->user_id = 1;
 
         // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger.
         $joueur->save();
@@ -64,12 +69,12 @@ class JoueurController extends Controller
             $image_name = time().'_'.$image->getClientOriginalName();
             $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
 
-            $joueur->photo->create([
+            $joueur->photo()->create([
                 'src' => $path
             ]);
         }
 
-        return redirect()->route('joueurs.create')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
+        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
 
     }
 
@@ -91,7 +96,7 @@ class JoueurController extends Controller
             'prenom' => 'required|string|max:255',
             'age' => 'required|integer|min:10|max:100',
             'tel' => 'nullable|string|max:20',
-            'email' => 'required|email|unique:joueurs,email',
+            'email' => 'required|email|unique:joueurs,email,'.$id,
             'pays' => 'required|string|max:255',
             'position' => 'required',
             'equipe' => 'required',
@@ -131,14 +136,14 @@ class JoueurController extends Controller
 
         // S'il y en a déjà une, on l'update
         if ($joueur->photo) {
-            $joueur->photo->update([
+            $joueur->photo()->update([
                 'src' => $path
             ]); 
         }
 
         // S'il n'y en a pas encore, on la create
         else {
-            $joueur->photo->create([
+            $joueur->photo()->create([
                 'src' => $path
             ]);
         }

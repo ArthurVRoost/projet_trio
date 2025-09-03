@@ -25,11 +25,12 @@
 <section class="pt-4">
     <div class="container">
         <div class="row">
+            <a href="{{route('joueurs.create')}}" class="btn">Create joueur</a>
             @foreach ($joueurs as $joueur)
                 <div class="col-4 mb-4">
                     <div class="card" style="width: 18rem;">
                         {{-- Ici, ajouter une image par défaut aka un placeholder s'il n'y a pas de photo uploadée --}}
-                        <img src="{{ asset($joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
+                        <img src="{{ asset('storage/'.$joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
                             <div class="d-flex justify-content-between">

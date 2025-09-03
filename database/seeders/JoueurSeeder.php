@@ -20,7 +20,7 @@ class JoueurSeeder extends Seeder
 
                 // on 'crée' ensuite la photo liée au joueur
                 $joueur->photo()->create([
-                    'src' => 'storage/joueurs_photos/' . $src,
+                    'src' => 'joueurs_photos/' . $src,
                 ]);
             });
     }

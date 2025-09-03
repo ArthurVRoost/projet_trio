@@ -28,7 +28,7 @@
             {{-- 1ère div --}}
             <div class="col-12 d-flex justify-content-center mb-3">
                 <div class="card" style="width: 22rem;">
-                    <img src="{{ asset($joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
+                    <img src="{{  asset('storage/'.$joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
                         <div class="d-flex justify-content-between">
