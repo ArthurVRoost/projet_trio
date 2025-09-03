@@ -10,16 +10,16 @@ use App\Http\Controllers\JoueurController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 
-// Page d'accueil
+// Home
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
-// Routes publiques (accessibles à tous)
+// Routes publiques
 Route::get('/joueurs', [JoueurController::class, 'index'])->name('joueurs.index');
 Route::get('/joueurs/{id}', [JoueurController::class, 'show'])->name('joueurs.show');
 Route::get('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
 Route::get('/equipes/{equipe}', [EquipeController::class, 'show'])->name('equipes.show');
 
-// Routes protégées par authentification
+// Routes auth
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Joueurs : création, édition, suppression (réservé aux users, coachs, admins)
+// Rôle User
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
     Route::post('/joueurs/store', [JoueurController::class, 'store'])->name('joueurs.store');
@@ -38,6 +38,7 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
     Route::delete('/joueurs/{id}', [JoueurController::class, 'destroy'])->name('joueurs.destroy');
 });
+// Rôle Coach
 Route::middleware(['auth', 'coach'])->group(function () {
     Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
     Route::post('/joueurs', [JoueurController::class, 'store'])->name('joueurs.store');
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'coach'])->group(function () {
     Route::put('/equipes/{equipe}', [EquipeController::class, 'update'])->name('equipes.update');
     Route::delete('/equipes/{equipe}', [EquipeController::class, 'destroy'])->name('equipes.destroy');
 });
+// Rôle Admin
 Route::middleware(['auth', 'admin'])->group(function () {
     // Joueurs
     Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
