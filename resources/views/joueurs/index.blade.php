@@ -20,7 +20,6 @@
                 </form>
             </div>
         </div>
-
         <div class="row">
             @foreach ($joueurs as $joueur)
                 <div class="col-4 mb-4">
@@ -46,9 +45,3 @@
 </section>
 
 @endsection
-
-
-
-
-
-
