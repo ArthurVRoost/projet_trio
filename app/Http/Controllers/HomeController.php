@@ -22,7 +22,7 @@ class HomeController extends Controller
         $continents = Continent::all();
         $joueursFA = Joueur::where('equipe_id', 1)->get();
         $joueursMonde = Joueur::whereHas('equipe', function ($query) {$query->whereBetween('continent_id', [2,7]);})->with('equipe')->take(8)->get();
-        $joueursEurope = Joueur::whereHas('equipe', function ($query) {$query->where('continent_id', 1);})->with('equipe')->take(8)->get();
+        $joueursEurope = Joueur::whereHas('equipe', function ($query) {$query->whereBetween('equipe_id', [2,3]);})->with('equipe')->take(8)->get();
         $joueurs = Joueur::all();
         $positions = Position::all();
         $roles = Role::all();
