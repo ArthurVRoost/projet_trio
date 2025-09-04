@@ -286,3 +286,145 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
+/* ========================================
+   STYLES POUR LES PAGES D'AUTHENTIFICATION
+   ======================================== */
+
+.auth-card {
+    background: rgba(26, 26, 26, 0.95);
+    border: 2px solid #ff6b35;
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+    transition: all 0.4s ease;
+}
+
+.auth-card:hover {
+    box-shadow: 0 30px 80px rgba(255, 107, 53, 0.3);
+    border-color: #ff8c42;
+}
+
+/* Styles spécifiques pour les formulaires d'auth */
+.auth-card .form-control {
+    background: rgba(26, 26, 26, 0.8);
+    border: 2px solid #333;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.auth-card .form-control:focus {
+    background: rgba(26, 26, 26, 0.9);
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 0.3rem rgba(255, 107, 53, 0.25);
+    color: #ffffff;
+}
+
+.auth-card .form-control::placeholder {
+    color: #666;
+    font-weight: 400;
+}
+
+.auth-card .form-label {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Boutons spécifiques pour l'auth */
+.auth-card .btn-primary {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    border: none;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.auth-card .btn-primary:hover {
+    background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+    border: 2px solid #ff8c42;
+}
+
+.auth-card .btn-outline-primary {
+    border: 2px solid #ff6b35;
+    color: #ff6b35;
+    font-weight: 600;
+    padding: 12px 26px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.auth-card .btn-outline-primary:hover {
+    background: #ff6b35;
+    border-color: #ff6b35;
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+}
+
+/* Checkbox et validation pour l'auth */
+.auth-card .form-check-input:checked {
+    background-color: #ff6b35;
+    border-color: #ff6b35;
+}
+
+.auth-card .form-check-input:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.25);
+}
+
+.auth-card .invalid-feedback {
+    color: #dc3545;
+    font-weight: 500;
+    margin-top: 6px;
+}
+
+.auth-card .is-invalid {
+    border-color: #dc3545 !important;
+}
+
+/* Alerts pour l'auth */
+.auth-card .alert {
+    border: none;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    font-weight: 500;
+}
+
+.auth-card .alert-info {
+    background: rgba(23, 162, 184, 0.2);
+    color: #17a2b8;
+    border-left: 4px solid #17a2b8;
+}
+
+/* Styles généraux pour l'auth */
+.auth-card .card-body {
+    padding: 2rem;
+}
+
+.auth-card .h4 {
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.auth-card .fw-bold {
+    font-weight: 700 !important;
+}
+
+.auth-card .text-decoration-none {
+    text-decoration: none !important;
+}
+
+.auth-card .text-decoration-none:hover {
+    text-decoration: underline !important;
+}
