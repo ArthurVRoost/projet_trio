@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Continent;
 use App\Models\Equipe;
 use App\Models\Genre;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -109,6 +110,11 @@ class EquipeController extends Controller
 
     public function destroy($id){
         $equipe = Equipe::findOrFail($id);
+
+        // Vérifier les permissions : admin peut tout supprimer, coach peut supprimer ses propres équipes
+        if (!Gate::allows('edit-own-team', $equipe)) {
+            abort(403, 'Vous ne pouvez supprimer que vos propres équipes.');
+        }
 
         if ($equipe->logo && Storage::exists(str_replace('storage/', 'public/', $equipe->logo))) {
         Storage::delete(str_replace('storage/', 'public/', $equipe->logo));

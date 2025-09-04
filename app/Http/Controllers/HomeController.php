@@ -14,6 +14,7 @@ class HomeController extends Controller
 {
     public function home(){
         $equipes = Equipe::all();
+        $equipesHome = Equipe::whereBetween('id', [2,3])->get();
         $equipesTest = Equipe::where('id', '>=', 2)->get();
         $equipesEurope = Equipe::where('continent_id', 1)->get();
         $equipesMondial = Equipe::whereBetween('continent_id', [2,7])->get();
@@ -25,7 +26,7 @@ class HomeController extends Controller
         $joueurs = Joueur::all();
         $positions = Position::all();
         $roles = Role::all();
-        return view('welcome', compact('equipes', 'equipesTest', 'genres', 'continents', 'joueurs', 'positions', 'roles', 'equipesEurope','equipesMondial', 'joueursEurope', 'joueursMonde', 'joueursFA'));
+        return view('welcome', compact('equipes', 'equipesTest', 'genres', 'continents', 'joueurs', 'positions', 'roles', 'equipesEurope','equipesMondial', 'joueursEurope', 'joueursMonde', 'joueursFA', 'equipesHome'));
     }
 
     public function teams(){

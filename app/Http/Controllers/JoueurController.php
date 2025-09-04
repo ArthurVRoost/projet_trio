@@ -7,6 +7,7 @@ use App\Models\Genre;
 use App\Models\Joueur;
 use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class JoueurController extends Controller
 {
@@ -216,7 +217,14 @@ class JoueurController extends Controller
     }
     
     public function destroy ($id) {
-        $joueur = Joueur::find($id)->delete();
+        $joueur = Joueur::find($id);
+
+        // Vérifier les permissions : admin peut tout supprimer, user peut supprimer ses propres joueurs
+        if (!Gate::allows('edit-own-player', $joueur)) {
+            abort(403, 'Vous ne pouvez supprimer que vos propres joueurs.');
+        }
+
+        $joueur->delete();
 
         return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse supprimé-e avec succès !');
     }
