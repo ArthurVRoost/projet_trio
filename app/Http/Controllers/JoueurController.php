@@ -56,8 +56,12 @@ class JoueurController extends Controller
             ->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
     }
 
-    // Vérif place dispo dans la position
-    if ($position->joueur()->count() >= 3) {
+    // Vérif place dispo dans la position (CORRIGÉ : compter par équipe ET position)
+    $joueurs_dans_position = Joueur::where('equipe_id', $request->equipe)
+                                  ->where('position_id', $request->position)
+                                  ->count();
+    
+    if ($joueurs_dans_position >= 3) {
         // Si toutes les positions sont pleines (= équipe complète)
         if ($equipe->joueur()->count() >= 15) {
             // ⚡ On bascule automatiquement dans l'équipe 1
@@ -65,7 +69,7 @@ class JoueurController extends Controller
         } else {
             return redirect()->route('joueurs.create')
                 ->withInput()
-                ->with('error', 'Cette position est complète.');
+                ->with('error', 'Cette position est complète dans cette équipe.');
         }
     }
 
