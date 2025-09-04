@@ -58,7 +58,9 @@ class JoueurController extends Controller
         }
 
         // vérifier que le sexe du joueur / joueuse correspond
-        if ($equipe->genre_id != $request->genre) {
+        // Si l'équipe est mixte (genre_id = 3), on accepte tous les genres
+        // Sinon, le genre du joueur doit correspondre au genre de l'équipe
+        if ($equipe->genre_id != 3 && $equipe->genre_id != $request->genre) {
             return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
@@ -81,13 +83,19 @@ class JoueurController extends Controller
 
         // Ajouter la photo :
         if ($request->hasFile('src')) {
-            $image = $request->file('src');
-            $image_name = time().'_'.$image->getClientOriginalName();
-            $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
+            try {
+                $image = $request->file('src');
+                $image_name = time().'_'.$image->getClientOriginalName();
+                $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
 
-            $joueur->photo()->create([
-                'src' => $path
-            ]);
+                $joueur->photo()->create([
+                    'src' => $path
+                ]);
+            } catch (\Exception $e) {
+                // Si l'upload échoue, on supprime le joueur créé et on retourne une erreur
+                $joueur->delete();
+                return redirect()->route('joueurs.create')->withInput()->with('error', 'Erreur lors de l\'upload de l\'image : ' . $e->getMessage());
+            }
         }
 
         return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
@@ -147,15 +155,15 @@ class JoueurController extends Controller
         $joueur = Joueur::find($id);
 
         // On vérifie aussi ici qu'il reste de la place dans l'équipe (et que l'équipe choisie est différente de l'équipe actuelle)
+        $equipe = Equipe::find($request->equipe);
         if ($request->equipe != $joueur->equipe_id) {
-            $equipe = Equipe::find($request->equipe);
-            if ($equipe->joueur()->count() >=15) {
-                return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
+            if ($equipe->joueur()->count() >= 15) {
+                return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Cette équipe est déjà complète');
             }
         }
-        // verif sexe
-        if ($equipe->genre_id != $request->genre) {
-            return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
+        // verif sexe - Si l'équipe est mixte (genre_id = 3), on accepte tous les genres
+        if ($equipe->genre_id != 3 && $equipe->genre_id != $request->genre) {
+            return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
         
@@ -172,23 +180,26 @@ class JoueurController extends Controller
         ]);
 
         // Upload de l'image:
-
         if ($request->hasFile('src')) {
-            $image = $request->file('src');
-            $image_name = time().'_'.$image->getClientOriginalName();
-            $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
+            try {
+                $image = $request->file('src');
+                $image_name = time().'_'.$image->getClientOriginalName();
+                $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
 
-            // S'il y a déjà une photo, on l'update
-            if ($joueur->photo) {
-                $joueur->photo()->update([
-                    'src' => $path
-                ]); 
-            }
-            // S'il n'y en a pas encore, on la create
-            else {
-                $joueur->photo()->create([
-                    'src' => $path
-                ]);
+                // S'il y a déjà une photo, on l'update
+                if ($joueur->photo) {
+                    $joueur->photo()->update([
+                        'src' => $path
+                    ]); 
+                }
+                // S'il n'y en a pas encore, on la create
+                else {
+                    $joueur->photo()->create([
+                        'src' => $path
+                    ]);
+                }
+            } catch (\Exception $e) {
+                return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Erreur lors de l\'upload de l\'image : ' . $e->getMessage());
             }
         }
 
