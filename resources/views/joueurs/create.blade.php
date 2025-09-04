@@ -142,7 +142,7 @@
                                     <option value="">Sélectionner une équipe</option>
                                     @foreach($equipes as $equipe)
                                         <option value="{{ $equipe->id }}" {{ old('equipe') == $equipe->id ? 'selected' : '' }}>
-                                            {{ $equipe->nom }}
+                                            {{ $equipe->nom }}  ({{ $equipe->genre->sexe }})
                                         </option>
                                     @endforeach
                                 </select>
