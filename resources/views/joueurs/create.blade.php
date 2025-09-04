@@ -152,8 +152,8 @@
 
                         <!-- Photo -->
                         <div class="mb-3">
-                            <label for="src" class="form-label">Photo du joueur</label>
-                            <input type="file" class="form-control @error('src') is-invalid @enderror" id="src" name="src" accept="image/jpeg,image/png,image/jpg,image/gif">
+                            <label for="src" class="form-label">Photo du joueur <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control @error('src') is-invalid @enderror" id="src" name="src" accept="image/jpeg,image/png,image/jpg,image/gif" required>
                             @error('src')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
