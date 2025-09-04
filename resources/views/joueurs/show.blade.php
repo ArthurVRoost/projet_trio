@@ -23,6 +23,7 @@
                         <p class="card-text text-capitalize">Position : {{ $joueur->position->position ?? 'Sans position' }}</p>
                         <p class="card-text">Email : {{ $joueur->email }}</p>
                         <p class="card-text">Téléphone : {{ $joueur->tel }}</p>
+                        @canany(['isAdmin', 'isCoach', 'isUser'])
                         {{-- Boutons delete et edit --}}
                         <div class="d-flex gap-2">
                             {{-- Edit --}}
@@ -38,6 +39,7 @@
                                 </form>
                             </div>
                         </div>
+                        @endcanany
                     </div>
                 </div>
             </div>
