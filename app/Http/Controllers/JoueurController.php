@@ -88,7 +88,7 @@ class JoueurController extends Controller
             ]);
         }
 
-        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
+        return redirect()->route('joueurs.create')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
 
     }
 
@@ -110,24 +110,14 @@ class JoueurController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
-            'age' => 'required|integer|min:10|max:40',
+            'age' => 'required|integer|min:10|max:100',
             'tel' => 'nullable|string|max:20',
-            'email' => 'required|email|unique:joueurs,email,'.$id,
+            'email' => 'required|email|unique:joueurs,email',
             'pays' => 'required|string|max:255',
             'position' => 'required',
             'equipe' => 'required',
             'genre' => 'required',
-            'src' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ],
-    [
-            'src.required'   => "L'image est obligatoire.",
-            'src.image'      => "Le fichier doit être une image valide.",
-            'nom.required'   => 'Le nom est obligatoire.',
-            'nom.string'     => 'Le nom doit être une chaîne de caractères.',
-            'prenom.required'=> 'Le prénom est obligatoire.',
-            'prenom.string'  => 'Le prénom doit être une chaîne de caractères.',
-            'mail.required'  => "L'adresse mail est obligatoire.",
-            'mail.email'     => "L'adresse mail doit être valide."
+            'src' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $joueur = Joueur::find($id);
