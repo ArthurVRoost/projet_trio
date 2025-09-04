@@ -147,9 +147,25 @@ class JoueurController extends Controller
         } else {
             $equipe = $joueur->equipe;
         }
+
         // verif sexe
         if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
             return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
+        }
+
+        // Vérification de la position (NOUVELLE VÉRIFICATION AJOUTÉE)
+        if ($request->position != $joueur->position_id || $request->equipe != $joueur->equipe_id) {
+            // Si on change de position ou d'équipe, vérifier la disponibilité
+            $joueurs_dans_position = Joueur::where('equipe_id', $request->equipe)
+                                          ->where('position_id', $request->position)
+                                          ->where('id', '!=', $id) // Exclure le joueur actuel
+                                          ->count();
+            
+            if ($joueurs_dans_position >= 3) {
+                return redirect()->route('joueurs.edit', $id)
+                    ->withInput()
+                    ->with('error', 'Cette position est complète dans cette équipe.');
+            }
         }
 
         

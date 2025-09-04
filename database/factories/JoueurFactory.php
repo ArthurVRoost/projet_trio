@@ -104,7 +104,7 @@ class JoueurFactory extends Factory
             }
         }
         
-        // En dernier recours absolu (ne devrait jamais arriver avec 30 joueurs)
+        // En dernier recours
         return [
             'equipe_id' => 1,
             'position_id' => 1
