@@ -10,12 +10,18 @@ use Illuminate\Http\Request;
 
 class JoueurController extends Controller
 {
-    public function index() {
-        $joueurs = Joueur::with(['photo', 'genre', 'equipe', 'position']) 
-                     ->orderBy('prenom', 'asc') 
-                     ->get();
+    public function index(Request $request){
+        $query = Joueur::with(['genre', 'equipe', 'position', 'photo']);
+
+        if ($request->filled('genre_id')) {
+            $query->where('genre_id', $request->genre_id);
+        }
+
+        $joueurs = $query->get();
+
         return view('joueurs.index', compact('joueurs'));
     }
+
 
     public function create() {
         $positions = Position::all();

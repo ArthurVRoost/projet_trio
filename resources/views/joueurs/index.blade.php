@@ -1,13 +1,3 @@
-{{-- @extends('') --}}
-{{-- @section('title', 'Page des joueurs et joueuses') --}}
-
-
-
-{{-- @section('content') --}}
-
-{{-- @endsection --}}
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,24 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Document</title>
+    <title>Page des joueurs et joueuses</title>
 </head>
 <body>
     
-</body>
-</html>
-
 <section class="pt-4">
     <div class="container">
-        <div class="row">
-            <div class="d-flex justify-content-center mb-4">
-                <a href="{{route('joueurs.create')}}" class="btn btn-info">Create joueur</a>
+        <div class="row mb-4">
+            <div class="d-flex justify-content-center">
+                <a href="{{route('joueurs.create')}}" class="btn btn-info me-3">Create joueur</a>
+
+                {{-- Dropdown de tri par genre --}}
+                <form method="GET" action="{{ route('joueurs.index') }}">
+                    <select name="genre_id" class="form-select" onchange="this.form.submit()">
+                        <option value="">-- Trier par genre --</option>
+                        <option value="1" {{ request('genre_id') == 1 ? 'selected' : '' }}>Hommes</option>
+                        <option value="2" {{ request('genre_id') == 2 ? 'selected' : '' }}>Femmes</option>
+                    </select>
+                </form>
             </div>
+        </div>
+
+        <div class="row">
             @foreach ($joueurs as $joueur)
                 <div class="col-4 mb-4">
                     <div class="card" style="width: 18rem;">
-                        {{-- Ici, ajouter une image par défaut aka un placeholder s'il n'y a pas de photo uploadée --}}
-                        <img src="{{ asset('storage/'.$joueur->photo->src) }}" class="card-img-top" alt="...">
+                        {{-- Image placeholder si pas de photo --}}
+                        <img src="{{ $joueur->photo ? asset('storage/'.$joueur->photo->src) : asset('images/placeholder.png') }}" 
+                             class="card-img-top" alt="photo joueur">
                         <div class="card-body">
                             <h5 class="card-title text-capitalize">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
                             <div class="d-flex justify-content-between">
@@ -50,4 +50,5 @@
     </div>
 </section>
 
-
+</body>
+</html>
