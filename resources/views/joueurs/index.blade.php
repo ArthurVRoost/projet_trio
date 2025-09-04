@@ -34,7 +34,7 @@
                         {{-- Ici, ajouter une image par défaut aka un placeholder s'il n'y a pas de photo uploadée --}}
                         <img src="{{ asset('storage/'.$joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
+                            <h5 class="card-title text-capitalize">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
                             <div class="d-flex justify-content-between">
                                 <p class="card-text">{{ $joueur->genre->sexe == 'femme' ? 'F' : 'H'}}</p>
                                 <p class="card-text">{{ $joueur->age }}</p>
