@@ -101,7 +101,7 @@ body {
 
 .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.15);
+    box-shadow: 0 15px 30px rgba(255, 107, 53, 0.1);
     border-color: #ff6b35;
 }
 
@@ -126,7 +126,7 @@ body {
 .btn-primary:hover {
     background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.25);
 }
 
 .btn-outline-primary {
@@ -143,7 +143,7 @@ body {
     border-color: #ff6b35;
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.2);
 }
 
 .btn-secondary {
@@ -302,7 +302,7 @@ body {
 }
 
 .auth-card:hover {
-    box-shadow: 0 30px 80px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 20px 50px rgba(255, 107, 53, 0.15);
     border-color: #ff8c42;
 }
 
@@ -351,7 +351,7 @@ body {
 
 .auth-card .btn-primary:hover {
     background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.25);
     border: 2px solid #ff8c42;
 }
 
@@ -369,7 +369,7 @@ body {
     background: #ff6b35;
     border-color: #ff6b35;
     color: white;
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.2);
 }
 
 /* Checkbox et validation pour l'auth */
@@ -391,6 +391,75 @@ body {
 
 .auth-card .is-invalid {
     border-color: #dc3545 !important;
+}
+
+/* ========================================
+   STYLES POUR LES FILTRES
+   ======================================== */
+
+/* Suppression des effets hover sur les filtres */
+.form-select:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: #333 !important;
+}
+
+/* Style spécifique pour les filtres d'équipes */
+.equipes-filter .form-select {
+    transition: none;
+}
+
+.equipes-filter .form-select:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #333;
+    background: rgba(26, 26, 26, 0.8);
+}
+
+/* ========================================
+   STYLES POUR LES CARTES JOUEURS
+   ======================================== */
+
+.player-card {
+    transition: all 0.3s ease;
+    border: 1px solid #333;
+    overflow: hidden;
+}
+
+.player-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 107, 53, 0.15);
+    border-color: #ff6b35;
+}
+
+.player-card .card-img-top {
+    transition: transform 0.3s ease;
+}
+
+.player-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Badges personnalisés pour les joueurs */
+.badge.bg-pink {
+    background: linear-gradient(135deg, #e91e63 0%, #f06292 100%) !important;
+    color: white;
+}
+
+.badge.bg-blue {
+    background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%) !important;
+    color: white;
+}
+
+/* Responsive pour les cartes joueurs */
+@media (max-width: 768px) {
+    .player-card .card-img-top {
+        height: 200px !important;
+    }
+
+    .player-card .card-body {
+        padding: 1rem;
+    }
 }
 
 /* Alerts pour l'auth */
@@ -428,4 +497,54 @@ body {
 
 .auth-card .text-decoration-none:hover {
     text-decoration: underline !important;
+}
+
+/* ========================================
+   STYLES POUR LE FOOTER
+   ======================================== */
+
+.footer {
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid #333;
+    padding: 2rem 0;
+    margin-top: auto;
+    text-align: center;
+}
+
+.footer-content {
+    color: #999;
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.footer-heart {
+    color: #ff6b35;
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+.footer-blood {
+    color: #dc3545;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
 }

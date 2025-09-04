@@ -124,7 +124,7 @@
                             </p>
                         </div>
                         <div class="card-footer bg-transparent border-0 text-center pb-4">
-                            <span class="badge text-white bg-primary bg-opacity-20 text-primary px-3 py-2 rounded-pill"
+                            <span class="badge text-white bg-primary bg-opacity-20 px-3 py-2 rounded-pill"
                                 >Voir l'équipe</span
                             >
                         </div>

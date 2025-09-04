@@ -14,10 +14,10 @@ use App\Http\Controllers\UserController;
 // ROUTES PUBLIQUES (Guests)
 // ========================================
 
-// Page d'accueil
+// Home
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
-// Consultation des joueurs et équipes (lecture seule)
+// Consultation des joueurs et équipes
 Route::get('/joueurs', [JoueurController::class, 'index'])->name('joueurs.index');
 Route::get('/equipes', [EquipeController::class, 'index'])->name('equipes.index');
 
@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
 // ========================================
 
 Route::middleware(['auth', 'user'])->group(function () {
-    // Gestion des joueurs - Routes spécifiques AVANT les routes avec paramètres
+    // Gestion des joueurs
     Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
     Route::post('/joueurs', [JoueurController::class, 'store'])->name('joueurs.store');
     Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
@@ -50,7 +50,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 // ========================================
 
 Route::middleware(['auth', 'coach'])->group(function () {
-    // Gestion des équipes - Routes spécifiques AVANT les routes avec paramètres
+    // Gestion des équipes
     Route::get('/equipes/create', [EquipeController::class, 'create'])->name('equipes.create');
     Route::post('/equipes', [EquipeController::class, 'store'])->name('equipes.store');
     Route::get('/equipes/{equipe}/edit', [EquipeController::class, 'edit'])->name('equipes.edit');
@@ -59,7 +59,7 @@ Route::middleware(['auth', 'coach'])->group(function () {
 });
 
 // ========================================
-// ROUTES ADMINISTRATEURS (Admin uniquement)
+// ROUTES ADMINISTRATEURS (Admin)
 // ========================================
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -76,12 +76,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // ROUTES DE CONSULTATION (après toutes les routes spécifiques)
 // ========================================
 
-// Consultation des détails (lecture seule) - Ces routes doivent être en dernier
+// Consultation des détails
 Route::get('/joueurs/{id}', [JoueurController::class, 'show'])->name('joueurs.show');
 Route::get('/equipes/{equipe}', [EquipeController::class, 'show'])->name('equipes.show');
 
-// ========================================
-// ROUTES D'AUTHENTIFICATION
-// ========================================
 
 require __DIR__.'/auth.php';
