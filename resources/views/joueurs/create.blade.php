@@ -8,7 +8,10 @@
                     <h4>Ajouter un nouveau joueur</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Affichage des erreurs -->
+                    <!-- Flash Messages -->
+                    <x-flash-messages />
+
+                    <!-- Affichage des erreurs de validation -->
                     @if($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -16,19 +19,6 @@
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
-                        </div>
-                    @endif
-
-                    <!-- Affichage des messages de succès/erreur -->
-                    @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
-                    @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
                         </div>
                     @endif
 
@@ -142,7 +132,7 @@
                                     <option value="">Sélectionner une équipe</option>
                                     @foreach($equipes as $equipe)
                                         <option value="{{ $equipe->id }}" {{ old('equipe') == $equipe->id ? 'selected' : '' }}>
-                                            {{ $equipe->nom }}  ({{ $equipe->genre->sexe }})
+                                            {{ $equipe->nom }} ({{ $equipe->genre->sexe }})
                                         </option>
                                     @endforeach
                                 </select>

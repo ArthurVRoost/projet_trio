@@ -4,6 +4,9 @@
 <div class="container">
     <h1>Ajouter une équipe</h1>
 
+    <!-- Flash Messages -->
+    <x-flash-messages />
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Erreurs :</strong>

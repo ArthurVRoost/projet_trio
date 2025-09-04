@@ -34,6 +34,7 @@
                 background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2c2c2c 100%);
                 min-height: 100vh;
                 font-weight: 400;
+                padding-top: 5%;
             }
             
             .navbar-dark {
@@ -278,8 +279,43 @@
             @yield('content')
         </main>
         
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Debug script for dropdowns -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM loaded, checking Bootstrap...');
+                
+                // Attendre que Vite charge Bootstrap
+                setTimeout(function() {
+                    console.log('Bootstrap available:', typeof window.bootstrap !== 'undefined');
+                    
+                    if (typeof window.bootstrap !== 'undefined') {
+                        // Initialiser manuellement les dropdowns
+                        const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+                        console.log('Found dropdowns:', dropdownElementList.length);
+                        
+                        const dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+                            console.log('Initializing dropdown:', dropdownToggleEl);
+                            return new window.bootstrap.Dropdown(dropdownToggleEl);
+                        });
+                        
+                        console.log('Dropdowns initialized:', dropdownList.length);
+                    } else {
+                        console.error('Bootstrap not loaded via Vite, trying CDN fallback...');
+                        // Fallback: charger Bootstrap via CDN
+                        const script = document.createElement('script');
+                        script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js';
+                        script.onload = function() {
+                            console.log('Bootstrap CDN loaded');
+                            const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+                            const dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+                                return new bootstrap.Dropdown(dropdownToggleEl);
+                            });
+                        };
+                        document.head.appendChild(script);
+                    }
+                }, 100);
+            });
+        </script>
     </body>
 </html>
 
