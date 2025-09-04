@@ -6,6 +6,8 @@
 @section('content')
     <section class="pt-4">
     <div class="container">
+        <!-- Flash Messages -->
+        <x-flash-messages />
         <div class="row justify-content-center">
             {{-- 1ère div --}}
             <div class="col-12 d-flex justify-content-center mb-3">

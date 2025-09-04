@@ -6,6 +6,8 @@
 @section('content')
     <section class="pt-4">
     <div class="container">
+        <!-- Flash Messages -->
+        <x-flash-messages />
         <div class="row mb-4">
             <div class="d-flex justify-content-center">
                 <a href="{{route('joueurs.create')}}" class="btn btn-info me-3">Create joueur</a>

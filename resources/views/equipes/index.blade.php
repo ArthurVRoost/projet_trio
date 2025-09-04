@@ -3,6 +3,9 @@
 
 @section('content')
 <div class="mt-5 pt-4">
+    <!-- Flash Messages -->
+    <x-flash-messages />
+    
     <!-- Header Section -->
     <div class="row mb-4">
         <div class="col-12">

@@ -4,6 +4,9 @@
 <div class="container">
     <h1>Détails de l'équipe</h1>
 
+    <!-- Flash Messages -->
+    <x-flash-messages />
+
     <div class="card mb-4">
         <div class="card-body">
             <h3 class="card-title">{{ $equipe->nom }}</h3>
