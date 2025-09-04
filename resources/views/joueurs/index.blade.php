@@ -1,28 +1,10 @@
-{{-- @extends('') --}}
-{{-- @section('title', 'Page des joueurs et joueuses') --}}
+@extends('layouts.app') 
+@section('title', 'Page des joueurs et joueuses')
 
 
 
-{{-- @section('content') --}}
-
-{{-- @endsection --}}
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
-
-<section class="pt-4">
+@section('content')
+    <section class="pt-4">
     <div class="container">
         <div class="row">
             <div class="d-flex justify-content-center mb-4">
@@ -49,5 +31,11 @@
         </div>
     </div>
 </section>
+
+@endsection
+
+
+
+
 
 
