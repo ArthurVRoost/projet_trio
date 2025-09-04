@@ -15,11 +15,14 @@ class CoachMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user() || $request->user()->role_id != 3) {
-            return redirect()->route("home");
+        if (!$request->user()) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette page.');
         }
-        else {
-            return $next($request);
+
+        if (!in_array($request->user()->role_id, [3, 4])) { // Coach ou Admin
+            return redirect()->route('home')->with('error', 'Accès refusé. Seuls les coachs et administrateurs peuvent accéder à cette page.');
         }
+
+        return $next($request);
     }
 }

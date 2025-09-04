@@ -15,11 +15,14 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user() || $request->user()->role_id != 2) {
-            return redirect()->route("home");
+        if (!$request->user()) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour accéder à cette page.');
         }
-        else {
-            return $next($request);
+
+        if (!in_array($request->user()->role_id, [2, 3, 4])) { // User, Coach ou Admin
+            return redirect()->route('home')->with('error', 'Accès refusé. Vous devez être un utilisateur enregistré pour accéder à cette page.');
         }
+
+        return $next($request);
     }
 }

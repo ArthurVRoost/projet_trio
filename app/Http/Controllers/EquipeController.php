@@ -7,6 +7,8 @@ use App\Models\Equipe;
 use App\Models\Genre;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class EquipeController extends Controller
 {
@@ -35,6 +37,7 @@ class EquipeController extends Controller
     $equipe->ville = $request->ville;
     $equipe->genre_id = $request->genre_id;
     $equipe->continent_id = $request->continent_id;
+    $equipe->user_id = Auth::id(); // Assigner l'équipe au coach qui la crée
 
     if ($request->hasFile('logo')) {
         $image = $request->file('logo');
@@ -56,6 +59,12 @@ class EquipeController extends Controller
 
     public function edit($id){
         $equipe = Equipe::findOrFail($id);
+        
+        // Vérifier les permissions : admin peut tout modifier, coach peut modifier ses propres équipes
+        if (!Gate::allows('edit-own-team', $equipe)) {
+            abort(403, 'Vous ne pouvez modifier que vos propres équipes.');
+        }
+        
         $continents = Continent::all();
         $genres = Genre::whereBetween('id', [1,3])->get();
         return view('equipes.edit', compact('equipe', 'genres', 'continents'));
@@ -63,6 +72,13 @@ class EquipeController extends Controller
 
     public function update(Request $request, $id)
 {
+    $equipe = Equipe::findOrFail($id);
+    
+    // Vérifier les permissions : admin peut tout modifier, coach peut modifier ses propres équipes
+    if (!Gate::allows('edit-own-team', $equipe)) {
+        abort(403, 'Vous ne pouvez modifier que vos propres équipes.');
+    }
+
     $request->validate([
         'nom' => ['required', 'string', 'max:255'],
         'ville' => ['required', 'string', 'max:255'],
@@ -71,7 +87,6 @@ class EquipeController extends Controller
         'logo' => ['nullable', 'image', 'mimes:jpg,png,jpeg,webp', 'max:2048'],
     ]);
 
-    $equipe = Equipe::findOrFail($id);
     $equipe->nom = $request->nom;
     $equipe->ville = $request->ville;
     $equipe->genre_id = $request->genre_id;
@@ -99,6 +114,11 @@ class EquipeController extends Controller
 
     public function destroy($id){
         $equipe = Equipe::findOrFail($id);
+        
+        // Vérifier les permissions : admin peut tout supprimer, coach peut supprimer ses propres équipes
+        if (!Gate::allows('edit-own-team', $equipe)) {
+            abort(403, 'Vous ne pouvez supprimer que vos propres équipes.');
+        }
 
         if ($equipe->logo && Storage::exists(str_replace('storage/', 'public/', $equipe->logo))) {
         Storage::delete(str_replace('storage/', 'public/', $equipe->logo));

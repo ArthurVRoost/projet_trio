@@ -7,6 +7,8 @@ use App\Models\Genre;
 use App\Models\Joueur;
 use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class JoueurController extends Controller
 {
@@ -71,8 +73,8 @@ class JoueurController extends Controller
         $joueur->position_id = $request->position;
         $joueur->equipe_id = $request->equipe;
         $joueur->genre_id = $request->genre;
-        // le auth()->id() renvoit l'id du user s'il est connecté, sinon null :
-        $joueur->user_id = auth()->id();
+        // le Auth::id() renvoit l'id du user s'il est connecté, sinon null :
+        $joueur->user_id = Auth::id();
 
         // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger.
         $joueur->save();
@@ -99,6 +101,12 @@ class JoueurController extends Controller
 
     public function edit($id) {
         $joueur = Joueur::with(['photo', 'genre', 'equipe', 'position'])->find($id);
+        
+        // Vérifier les permissions : admin peut tout modifier, user peut modifier ses propres joueurs
+        if (!Gate::allows('edit-own-player', $joueur)) {
+            abort(403, 'Vous ne pouvez modifier que vos propres joueurs.');
+        }
+        
         $positions = Position::all();
         $genres = Genre::whereBetween('id', [1,2])->get();
         $equipes = Equipe::all();
@@ -106,6 +114,12 @@ class JoueurController extends Controller
     }
 
     public function update($id, Request $request) {
+        $joueur = Joueur::find($id);
+        
+        // Vérifier les permissions : admin peut tout modifier, user peut modifier ses propres joueurs
+        if (!Gate::allows('edit-own-player', $joueur)) {
+            abort(403, 'Vous ne pouvez modifier que vos propres joueurs.');
+        }
 
         $request->validate([
             'nom' => 'required|string|max:255',
@@ -182,7 +196,14 @@ class JoueurController extends Controller
     }
     
     public function destroy ($id) {
-        $joueur = Joueur::find($id)->delete();
+        $joueur = Joueur::find($id);
+        
+        // Vérifier les permissions : admin peut tout supprimer, user peut supprimer ses propres joueurs
+        if (!Gate::allows('edit-own-player', $joueur)) {
+            abort(403, 'Vous ne pouvez supprimer que vos propres joueurs.');
+        }
+        
+        $joueur->delete();
 
         return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse supprimé-e avec succès !');
     }

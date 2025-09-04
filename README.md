@@ -1,5 +1,7 @@
 # Consignes
 
+Tech: LARAVEL / BOOTSTRAP - TAILWIND / MIGRATIONS / MODEL / VUE / CONTROLLER / CRUD / VALIDATE / GATES / MIDDLEWARE
+
 ## Objectif
 
 Choisis un sport d'équipe pour lequel crée la palteforme suivante:
@@ -75,4 +77,3 @@ Installe Laravel Breeze (stack Blade).
 -   le role admin peut tout créer: player et team, tout modifier, même les joueurs et les équipes crée par les coachs et les users. Il peut également modifier le rôle des user ou les supprimer. Si un user est supprimé, son contenu reste...
 
 ---
-
