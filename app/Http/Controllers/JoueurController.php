@@ -11,12 +11,18 @@ use Illuminate\Support\Facades\Gate;
 
 class JoueurController extends Controller
 {
-    public function index() {
-        $joueurs = Joueur::with(['photo', 'genre', 'equipe', 'position']) 
-                     ->orderBy('prenom', 'asc') 
-                     ->get();
+    public function index(Request $request){
+        $query = Joueur::with(['genre', 'equipe', 'position', 'photo']);
+
+        if ($request->filled('genre_id')) {
+            $query->where('genre_id', $request->genre_id);
+        }
+
+        $joueurs = $query->get();
+
         return view('joueurs.index', compact('joueurs'));
     }
+
 
     public function create() {
         $positions = Position::all();
@@ -57,15 +63,15 @@ class JoueurController extends Controller
             ->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
     }
 
-    // Vérif place dispo dans la position (CORRIGÉ : compter par équipe ET position)
+    // Vérif place dispo dans la position (compter par équipe ET position)
     $joueurs_dans_position = Joueur::where('equipe_id', $request->equipe)
                                   ->where('position_id', $request->position)
                                   ->count();
     
     if ($joueurs_dans_position >= 3) {
-        // Si toutes les positions sont pleines (= équipe complète)
+        // Si toutes les positions sont pleines (= équipe complète à 15)
         if ($equipe->joueur()->count() >= 15) {
-            // ⚡ On bascule automatiquement dans l'équipe 1
+            // On bascule automatiquement dans l'équipe 1
             $equipe = Equipe::find(1);
         } else {
             return redirect()->route('joueurs.create')
@@ -74,7 +80,7 @@ class JoueurController extends Controller
         }
     }
 
-    // Création joueur
+    // Create le joueur
     $joueur = new Joueur();
     $joueur->nom        = $request->nom;
     $joueur->prenom     = $request->prenom;
@@ -83,7 +89,7 @@ class JoueurController extends Controller
     $joueur->email      = $request->email;
     $joueur->pays       = $request->pays;
     $joueur->position_id= $request->position;
-    $joueur->equipe_id  = $equipe->id; // corrigé
+    $joueur->equipe_id  = $equipe->id;
     $joueur->genre_id   = $request->genre;
     $joueur->user_id    = auth()->id();
     $joueur->save();
@@ -158,7 +164,7 @@ class JoueurController extends Controller
             return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
-        // Vérification de la position (NOUVELLE VÉRIFICATION AJOUTÉE)
+        // Vérification de la position 
         if ($request->position != $joueur->position_id || $request->equipe != $joueur->equipe_id) {
             // Si on change de position ou d'équipe, vérifier la disponibilité
             $joueurs_dans_position = Joueur::where('equipe_id', $request->equipe)
