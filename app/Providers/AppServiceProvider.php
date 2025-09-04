@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Enregistrer les helpers
-        require_once app_path('Helpers/AuthHelper.php');
+        require_once app_path('helpers/AuthHelper.php');
     }
 
     /**

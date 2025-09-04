@@ -26,7 +26,7 @@
         {{-- EKIP EUROPE --}}
         <h2 class="mt-3 ms-5" style="color: white">Equipes Européenes</h2>
         <section class="section1 mt-5">
-            @foreach ($equipesEurope as $ekip)
+            @foreach ($equipesHome as $ekip)
                 <a href="{{ route('equipes.show', $ekip->id) }}" class="cardEurope">
                     <div class="cardEurope">
                         <img src="{{ asset($ekip->logo) }}" width="350" height="260" alt="">
