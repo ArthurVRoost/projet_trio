@@ -45,7 +45,7 @@
                 <a href="{{ route('joueurs.show', $joueur->id) }}" class="cardEurope">
                     <div class="cardEurope">
                         {{-- {{ $joueur->photo->src }} --}}
-                        <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI9lRck6miglY0SZF_BZ_sK829yiNskgYRUg&s" width="350" height="260" alt="{{ $joueur->nom }}">
+                        <img  src="{{ asset('storage/'.$joueur->photo->src) }}" width="350" height="260" alt="{{ $joueur->nom }}">
                         <h3>{{ $joueur->nom }}</h3>
                         <h3>{{ $joueur->prenom }}</h3>
                         <p>Joue pour {{ $joueur->equipe->nom }} </p>
@@ -75,7 +75,7 @@
             @foreach ($joueursMonde as $joueurMon)
                 <a href="{{ route('joueurs.show', $joueurMon->id) }}" class="cardEurope">
                     <div class="cardEurope">
-                        <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI9lRck6miglY0SZF_BZ_sK829yiNskgYRUg&s" width="350" height="260" alt="{{ $joueur->nom }}">
+                        <img  src="{{ asset('storage/'.$joueurMon->photo->src) }}" width="350" height="260" alt="{{ $joueur->nom }}">
                         <h3>{{ $joueurMon->nom }}</h3>
                         <h3>{{ $joueurMon->prenom }}</h3>
                         <p>Joue pour {{ $joueurMon->equipe->nom }} </p>
@@ -91,7 +91,7 @@
             @foreach ($joueursFA as $fa)
                 <a href="{{ route('joueurs.show', $fa->id) }}" class="cardEurope">
                     <div class="cardEurope">
-                        <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI9lRck6miglY0SZF_BZ_sK829yiNskgYRUg&s" width="350" height="260" alt="{{ $joueur->nom }}">
+                        <img  src="{{ asset('storage/'.$fa->photo->src) }}" width="350" height="260" alt="{{ $joueur->nom }}">
                         <h3>{{ $fa->nom }}</h3>
                         <h3>{{ $fa->prenom }}</h3>
                         <p>Joue pour {{ $fa->equipe->nom }} </p>
