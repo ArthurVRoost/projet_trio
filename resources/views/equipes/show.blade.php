@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Détails de l'équipe</h1>
 
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-body">
             <h3 class="card-title">{{ $equipe->nom }}</h3>
             <p><strong>Ville :</strong> {{ $equipe->ville }}</p>
@@ -16,15 +16,36 @@
                     <img src="{{ asset($equipe->logo) }}" alt="Logo de {{ $equipe->nom }}" style="max-width: 200px;">
                 </div>
             @endif
-
-            <a href="{{ route('equipes.index') }}" class="btn btn-secondary">Retour</a>
-            <a href="{{ route('equipes.edit', $equipe->id) }}" class="btn btn-warning">Modifier</a>
-            <form action="{{ route('equipes.destroy', $equipe->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cette équipe ?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">Supprimer</button>
-            </form>
         </div>
+    </div>
+
+    <h4 class="mb-3">Joueurs de l'équipe</h4>
+
+    <div class="row">
+        @foreach($equipe->joueur as $joueur)
+            <div class="col-md-3 mb-3">
+                <a href="{{ route('joueurs.show', $joueur->id) }}" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $joueur->nom }} {{ $joueur->prenom }}</h5>
+                            <p class="card-text"><strong>Position :</strong> {{ $joueur->position->nom ?? 'Non défini' }}</p>
+                            <p class="card-text"><strong>Âge :</strong> {{ $joueur->age }} ans</p>
+                            <p class="card-text"><strong>Pays :</strong> {{ $joueur->pays }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        @endforeach
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ route('equipes.index') }}" class="btn btn-secondary">Retour</a>
+        <a href="{{ route('equipes.edit', $equipe->id) }}" class="btn btn-warning">Modifier</a>
+        <form action="{{ route('equipes.destroy', $equipe->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Supprimer cette équipe ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+        </form>
     </div>
 </div>
 @endsection

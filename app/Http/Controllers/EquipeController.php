@@ -58,10 +58,11 @@ class EquipeController extends Controller
     return redirect()->route('equipes.index')->with('success', 'Equipe ajoutée !');
 }
 
-    public function show($id){
-        $equipe = Equipe::findOrFail($id);
-        return view('equipes.show', compact('equipe'));
-    }
+    public function show($id)
+{
+    $equipe = Equipe::with('joueur')->findOrFail($id);
+    return view('equipes.show', compact('equipe'));
+}
 
     public function edit($id){
         $equipe = Equipe::findOrFail($id);
