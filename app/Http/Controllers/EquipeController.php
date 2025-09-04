@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Continent;
 use App\Models\Equipe;
 use App\Models\Genre;
+use App\Http\Controllers\JoueurController;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -54,7 +55,12 @@ class EquipeController extends Controller
 
     public function show($id){
         $equipe = Equipe::findOrFail($id);
-        return view('equipes.show', compact('equipe'));
+        
+        // Obtenir les statistiques des positions
+        $joueurController = new JoueurController();
+        $positionStats = $joueurController->getPositionStats($id);
+        
+        return view('equipes.show', compact('equipe', 'positionStats'));
     }
 
     public function edit($id){

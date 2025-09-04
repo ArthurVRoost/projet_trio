@@ -57,6 +57,26 @@ class JoueurController extends Controller
             return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
         }
 
+        // Logique des positions : vérifier les quotas
+        $positionChoisie = $request->position;
+        $positionReserve = 4; // ID de la position réserve selon le seeder
+        
+        // Compter les joueurs dans la position choisie
+        $nbJoueursDansPosition = $equipe->joueur()->where('position_id', $positionChoisie)->count();
+        
+        // Si la position choisie est pleine (4 joueurs), passer en réserve
+        if ($nbJoueursDansPosition >= 4) {
+            $positionChoisie = $positionReserve;
+        }
+        
+        // Compter les joueurs en réserve
+        $nbJoueursEnReserve = $equipe->joueur()->where('position_id', $positionReserve)->count();
+        
+        // Si la réserve est aussi pleine, refuser l'ajout
+        if ($positionChoisie == $positionReserve && $nbJoueursEnReserve >= 4) {
+            return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est complète. Toutes les positions et la réserve sont pleines.');
+        }
+
         // vérifier que le sexe du joueur / joueuse correspond
         // Si l'équipe est mixte (genre_id = 3), on accepte tous les genres
         // Sinon, le genre du joueur doit correspondre au genre de l'équipe
@@ -72,7 +92,7 @@ class JoueurController extends Controller
         $joueur->tel = $request->tel;
         $joueur->email = $request->email;
         $joueur->pays = $request->pays;
-        $joueur->position_id = $request->position;
+        $joueur->position_id = $positionChoisie; // Utiliser la position calculée (peut être réserve)
         $joueur->equipe_id = $request->equipe;
         $joueur->genre_id = $request->genre;
         // le Auth::id() renvoit l'id du user s'il est connecté, sinon null :
@@ -98,7 +118,13 @@ class JoueurController extends Controller
             }
         }
 
-        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
+        // Message de succès avec information sur la position
+        $message = 'Joueur/joueuse ajouté-e avec succès !';
+        if ($positionChoisie == $positionReserve && $request->position != $positionReserve) {
+            $message .= ' (Mis en réserve car la position choisie était complète)';
+        }
+        
+        return redirect()->route('joueurs.index')->with('success', $message);
 
     }
 
@@ -161,6 +187,27 @@ class JoueurController extends Controller
                 return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Cette équipe est déjà complète');
             }
         }
+        
+        // Logique des positions : vérifier les quotas
+        $positionChoisie = $request->position;
+        $positionReserve = 4; // ID de la position réserve selon le seeder
+        
+        // Compter les joueurs dans la position choisie (en excluant le joueur actuel)
+        $nbJoueursDansPosition = $equipe->joueur()->where('position_id', $positionChoisie)->where('id', '!=', $id)->count();
+        
+        // Si la position choisie est pleine (4 joueurs), passer en réserve
+        if ($nbJoueursDansPosition >= 4) {
+            $positionChoisie = $positionReserve;
+        }
+        
+        // Compter les joueurs en réserve (en excluant le joueur actuel)
+        $nbJoueursEnReserve = $equipe->joueur()->where('position_id', $positionReserve)->where('id', '!=', $id)->count();
+        
+        // Si la réserve est aussi pleine, refuser la modification
+        if ($positionChoisie == $positionReserve && $nbJoueursEnReserve >= 4) {
+            return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Cette équipe est complète. Toutes les positions et la réserve sont pleines.');
+        }
+        
         // verif sexe - Si l'équipe est mixte (genre_id = 3), on accepte tous les genres
         if ($equipe->genre_id != 3 && $equipe->genre_id != $request->genre) {
             return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
@@ -174,7 +221,7 @@ class JoueurController extends Controller
             'tel' => $request->tel,
             'email' => $request->email,
             'pays' => $request->pays,
-            'position_id' => $request->position,
+            'position_id' => $positionChoisie, // Utiliser la position calculée (peut être réserve)
             'equipe_id' => $request->equipe,
             'genre_id' => $request->genre
         ]);
@@ -203,7 +250,13 @@ class JoueurController extends Controller
             }
         }
 
-        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse mis-e à jour avec succès !');
+        // Message de succès avec information sur la position
+        $message = 'Joueur/joueuse mis-e à jour avec succès !';
+        if ($positionChoisie == $positionReserve && $request->position != $positionReserve) {
+            $message .= ' (Mis en réserve car la position choisie était complète)';
+        }
+        
+        return redirect()->route('joueurs.index')->with('success', $message);
     }
     
     public function destroy ($id) {
@@ -217,5 +270,43 @@ class JoueurController extends Controller
         $joueur->delete();
 
         return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse supprimé-e avec succès !');
+    }
+
+    /**
+     * Obtenir les statistiques des positions pour une équipe
+     */
+    public function getPositionStats($equipeId)
+    {
+        $equipe = Equipe::findOrFail($equipeId);
+        $positions = Position::all();
+        
+        $stats = [];
+        foreach ($positions as $position) {
+            $count = $equipe->joueur()->where('position_id', $position->id)->count();
+            $stats[] = [
+                'position' => $position->position,
+                'count' => $count,
+                'max' => 4,
+                'is_full' => $count >= 4
+            ];
+        }
+        
+        return $stats;
+    }
+
+    /**
+     * Vérifier si une position est disponible dans une équipe
+     */
+    public function isPositionAvailable($equipeId, $positionId, $excludeJoueurId = null)
+    {
+        $equipe = Equipe::findOrFail($equipeId);
+        $query = $equipe->joueur()->where('position_id', $positionId);
+        
+        if ($excludeJoueurId) {
+            $query->where('id', '!=', $excludeJoueurId);
+        }
+        
+        $count = $query->count();
+        return $count < 4;
     }
 }
