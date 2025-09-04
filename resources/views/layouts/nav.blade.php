@@ -22,7 +22,7 @@
 
 <nav class="navbar navbar-expand-lg p-3 ">
        <a href="{{ route('home') }}">Home</a>
-       <a href="">Joueurs</a>
+       <a href="{{route('joueurs.index')}}">Joueurs</a>
        <a href="{{ route('equipes.index') }}">Teams</a> 
        @auth
             <a href="{{ url('/dashboard') }}" class="">Dashboard</a>

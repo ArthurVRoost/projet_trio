@@ -24,6 +24,9 @@ class PositionSeeder extends Seeder
                 'position' => 'centre'
             ],
             [
+                'position' => 'gardien'
+            ],
+            [
                 'position' => 'réserve'
             ]
         ]);

@@ -49,9 +49,9 @@ class JoueurController extends Controller
             'email.email'     => "L'adresse mail doit être valide."
         ]);
 
-        // On va vérifier au début si l'équipe choisie est complète ou non
-
         $equipe = Equipe::find($request->equipe);
+
+        // On va vérifier au début si l'équipe choisie est complète ou non
         if ($equipe->joueur()->count() >= 15) {
             return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
         }
@@ -60,6 +60,17 @@ class JoueurController extends Controller
         if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
             return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
+
+        $position = Position::find($request->position);
+
+        // On va vérifier qu'il y a encore de la place pour cette position
+        if ($position->joueur()->count() == 3) {
+            return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette position est complète.');
+        }
+
+        // $equipe2 = Equipe::where('id', 1);
+
+
 
         $joueur = new Joueur();
 
@@ -77,6 +88,13 @@ class JoueurController extends Controller
 
         // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger (le joueur doit exister avant la photo dans cette relation one2one) - s'il n'y avait pas de FK, le save aurait été à la fin.
         $joueur->save();
+
+        if ($position->id == 5 && $position->joueur()->count() == 3 && $equipe->joueur()->count() >= 15) {
+            $joueur->equipe_id == 1;
+            return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette position est complète. Tu es tout seul.');
+
+        }
+
 
         // Ajouter la photo :
         if ($request->hasFile('src')) {
