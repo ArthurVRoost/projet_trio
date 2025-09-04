@@ -1,270 +1,342 @@
-@extends('layouts.app')
-@section('title', 'Accueil')
-@section('content')
-<div class="mt-5 pt-4">
-    <!-- Hero Section -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="hero-section position-relative overflow-hidden rounded-4" style="background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 140, 66, 0.05) 50%, rgba(26, 26, 26, 0.9) 100%); border: 1px solid rgba(255, 107, 53, 0.2);">
-                <div class="position-absolute top-0 end-0" style="width: 200px; height: 200px; background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%); border-radius: 50%; transform: translate(50%, -50%);"></div>
-                <div class="position-absolute bottom-0 start-0" style="width: 150px; height: 150px; background: radial-gradient(circle, rgba(255, 140, 66, 0.08) 0%, transparent 70%); border-radius: 50%; transform: translate(-50%, 50%);"></div>
-                
-                <div class="card-body text-center py-5 position-relative">
-                    <div class="mb-4">
-                        <div class="d-inline-block p-3 rounded-circle" style="background: linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(255, 140, 66, 0.1) 100%); border: 2px solid rgba(255, 107, 53, 0.3);">
-                            <i class="bi bi-trophy-fill text-primary" style="font-size: 3rem;"></i>
-                        </div>
-                    </div>
-                    <h1 class="display-3 fw-bold mb-3 text-white">
-                        Sports Manager
-                    </h1>
-                    <p class="lead text-muted mb-4 fs-5">Plateforme de gestion sportive professionnelle</p>
-                    <div class="d-flex justify-content-center gap-3 flex-wrap">
-                        <a href="{{ route('joueurs.index') }}" class="btn btn-primary btn-lg px-4 py-3">
-                            <i class="bi bi-people me-2"></i>Gestion des Joueurs
-                        </a>
-                        <a href="{{ route('equipes.index') }}" class="btn btn-outline-primary btn-lg px-4 py-3">
-                            <i class="bi bi-shield me-2"></i>Gestion des Équipes
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+@extends('layouts.app') @section('title', 'home') @section('content')
 
-    <!-- Équipes Européennes -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <div class="me-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);">
-                        <i class="bi bi-globe-europe-africa text-white fs-5"></i>
+<!-- Carousel Hero Section -->
+<div class="position-relative mb-5">
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button
+                type="button"
+                data-bs-target="#carouselExampleAutoplaying"
+                data-bs-slide-to="0"
+                class="active"
+            ></button>
+            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="position-relative">
+                    <img
+                        src="https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c27e/live/c3a39390-66d1-11ef-a065-11da863b60a9.jpg"
+                        class="d-block w-100"
+                        style="height: 70vh; object-fit: cover; filter: brightness(0.4)"
+                        alt="Football"
+                    />
+                    <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                        <h1 class="display-2 fw-bold mb-4">Football Elite</h1>
+                        <p class="lead fs-4">Découvrez les meilleures équipes et joueurs</p>
                     </div>
-                </div>
-                <div>
-                    <h2 class="h3 fw-bold mb-1 text-white">Équipes Européennes</h2>
-                    <p class="text-muted mb-0">Découvrez les équipes du continent européen</p>
                 </div>
             </div>
-            <div class="row g-4">
-                @foreach ($equipesHome as $ekip)
-                    <div class="col-lg-4 col-md-6">
-                        <a href="{{ route('equipes.show', $ekip->id) }}" class="text-decoration-none">
-                            <div class="card h-100 team-card position-relative overflow-hidden">
-                                <div class="card-img-top overflow-hidden position-relative" style="height: 220px;">
-                                    <img src="{{ asset($ekip->logo) }}" class="w-100 h-100 object-fit-cover" alt="{{ $ekip->nom }}">
-                                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%);"></div>
-                                </div>
-                                <div class="card-body p-4">
-                                    <h5 class="card-title fw-bold text-white mb-3">{{ $ekip->nom }}</h5>
-                                    <div class="d-flex align-items-center text-muted">
-                                        <i class="bi bi-geo-alt me-2 text-primary"></i>
-                                        <span class="fw-medium">{{ $ekip->ville }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+            <div class="carousel-item">
+                <div class="position-relative">
+                    <img
+                        src="https://img.olympics.com/images/image/private/t_s_pog_staticContent_hero_xl_2x/f_auto/primary/rvgg1pzokkgyasiuwqie"
+                        class="d-block w-100"
+                        style="height: 70vh; object-fit: cover; filter: brightness(0.4)"
+                        alt="Olympics"
+                    />
+                    <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                        <h1 class="display-2 fw-bold mb-4">Champions</h1>
+                        <p class="lead fs-4">Les légendes du sport mondial</p>
                     </div>
-                @endforeach
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="position-relative">
+                    <img
+                        src="https://img.uefa.com/imgml/uefacom/uel/social/og-default.jpg"
+                        class="d-block w-100"
+                        style="height: 70vh; object-fit: cover; filter: brightness(0.4)"
+                        alt="UEFA"
+                    />
+                    <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                        <h1 class="display-2 fw-bold mb-4">Europa League</h1>
+                        <p class="lead fs-4">L'excellence européenne</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Joueurs Européens -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <div class="me-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);">
-                        <i class="bi bi-people text-white fs-5"></i>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="h3 fw-bold mb-1 text-white">Joueurs Européens</h2>
-                    <p class="text-muted mb-0">Les talents des équipes européennes</p>
-                </div>
+        <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="prev"
+        >
+            <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                <span class="carousel-control-prev-icon"></span>
             </div>
-            <div class="row g-4">
-                @foreach ($joueursEurope as $joueur)
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <a href="{{ route('joueurs.show', $joueur->id) }}" class="text-decoration-none">
-                            <div class="card h-100 player-card position-relative overflow-hidden">
-                                <div class="card-img-top overflow-hidden position-relative" style="height: 220px;">
-                                    <img src="{{ asset('storage/'.$joueur->photo->src) }}" class="w-100 h-100 object-fit-cover" alt="{{ $joueur->nom }}">
-                                    <div class="position-absolute top-0 end-0 m-2">
-                                        <span class="badge bg-primary rounded-pill px-3 py-2 fw-semibold">
-                                            {{ $joueur->age }} ans
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body text-center p-4">
-                                    <h6 class="card-title fw-bold text-white mb-2">{{ $joueur->prenom }} {{ $joueur->nom }}</h6>
-                                    <div class="d-flex align-items-center justify-content-center text-muted">
-                                        <i class="bi bi-shield me-2 text-primary"></i>
-                                        <span class="fw-medium">{{ $joueur->equipe->nom }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="next"
+        >
+            <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                <span class="carousel-control-next-icon"></span>
             </div>
-        </div>
-    </div>
-
-    <!-- Équipes Mondiales -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <div class="me-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);">
-                        <i class="bi bi-globe text-white fs-5"></i>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="h3 fw-bold mb-1 text-white">Équipes Mondiales</h2>
-                    <p class="text-muted mb-0">Équipes de tous les continents</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                @foreach ($equipesMondial as $equipeMonde)
-                    <div class="col-lg-4 col-md-6">
-                        <a href="{{ route('equipes.show', $equipeMonde->id) }}" class="text-decoration-none">
-                            <div class="card h-100 team-card position-relative overflow-hidden">
-                                <div class="card-img-top overflow-hidden position-relative" style="height: 220px;">
-                                    <img src="{{ asset($equipeMonde->logo) }}" class="w-100 h-100 object-fit-cover" alt="{{ $equipeMonde->nom }}">
-                                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%);"></div>
-                                </div>
-                                <div class="card-body p-4">
-                                    <h5 class="card-title fw-bold text-white mb-3">{{ $equipeMonde->nom }}</h5>
-                                    <div class="d-flex align-items-center text-muted">
-                                        <i class="bi bi-geo-alt me-2 text-primary"></i>
-                                        <span class="fw-medium">{{ $equipeMonde->ville }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-
-    <!-- Joueurs Mondiaux -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <div class="me-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);">
-                        <i class="bi bi-people-fill text-white fs-5"></i>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="h3 fw-bold mb-1 text-white">Joueurs Mondiaux</h2>
-                    <p class="text-muted mb-0">Talents internationaux</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                @foreach ($joueursMonde as $joueurMon)
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <a href="{{ route('joueurs.show', $joueurMon->id) }}" class="text-decoration-none">
-                            <div class="card h-100 player-card position-relative overflow-hidden">
-                                <div class="card-img-top overflow-hidden position-relative" style="height: 220px;">
-                                    <img src="{{ asset('storage/'.$joueurMon->photo->src) }}" class="w-100 h-100 object-fit-cover" alt="{{ $joueurMon->nom }}">
-                                    <div class="position-absolute top-0 end-0 m-2">
-                                        <span class="badge bg-primary rounded-pill px-3 py-2 fw-semibold">
-                                            {{ $joueurMon->age }} ans
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body text-center p-4">
-                                    <h6 class="card-title fw-bold text-white mb-2">{{ $joueurMon->prenom }} {{ $joueurMon->nom }}</h6>
-                                    <div class="d-flex align-items-center justify-content-center text-muted">
-                                        <i class="bi bi-shield me-2 text-primary"></i>
-                                        <span class="fw-medium">{{ $joueurMon->equipe->nom }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-
-    <!-- Joueurs Sans Équipe -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-4">
-                <div class="me-3">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);">
-                        <i class="bi bi-person-x text-white fs-5"></i>
-                    </div>
-                </div>
-                <div>
-                    <h2 class="h3 fw-bold mb-1 text-white">Agents Libres</h2>
-                    <p class="text-muted mb-0">Joueurs disponibles pour recrutement</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                @foreach ($joueursFA as $fa)
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <a href="{{ route('joueurs.show', $fa->id) }}" class="text-decoration-none">
-                            <div class="card h-100 player-card position-relative overflow-hidden">
-                                <div class="card-img-top overflow-hidden position-relative" style="height: 220px;">
-                                    <img src="{{ asset('storage/'.$fa->photo->src) }}" class="w-100 h-100 object-fit-cover" alt="{{ $fa->nom }}">
-                                    <div class="position-absolute top-0 end-0 m-2">
-                                        <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fw-semibold">
-                                            <i class="bi bi-star me-1"></i>Libre
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body text-center p-4">
-                                    <h6 class="card-title fw-bold text-white mb-2">{{ $fa->prenom }} {{ $fa->nom }}</h6>
-                                    <div class="d-flex align-items-center justify-content-center text-muted">
-                                        <i class="bi bi-shield me-2 text-primary"></i>
-                                        <span class="fw-medium">{{ $fa->equipe->nom ?? 'Sans équipe' }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </div>
 
-<style>
-.team-card, .player-card {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 107, 53, 0.1);
-}
+<div class="container-fluid px-4">
+    <!-- ÉQUIPES EUROPÉENNES -->
+    <section class="mb-6">
+        <div class="text-center mb-5">
+            <h2 class="display-4 text-white fw-light mb-3">
+                Équipes <span class="fw-bold text-primary">Européennes</span>
+            </h2>
+            <div
+                class="mx-auto bg-gradient"
+                style="width: 100px; height: 3px; background: linear-gradient(90deg, #0d6efd, #6f42c1)"
+            ></div>
+        </div>
+        <div class="row g-4 mb-5">
+            @foreach ($equipesHome as $ekip)
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <a href="{{ route('equipes.show', $ekip->id) }}" class="text-decoration-none">
+                    <div
+                        class="card bg-dark border-0 h-100 shadow-lg position-relative overflow-hidden"
+                        style="transition: all 0.4s ease; border-radius: 20px"
+                    >
+                        <div
+                            class="position-absolute top-0 start-0 w-100 h-100 bg-gradient opacity-0"
+                            style="
+                                background: linear-gradient(45deg, rgba(13, 110, 253, 0.1), rgba(111, 66, 193, 0.1));
+                                transition: opacity 0.4s ease;
+                            "
+                        ></div>
+                        <div class="card-body p-4 text-center position-relative">
+                            <div class="mb-4">
+                                <img
+                                    src="{{ asset($ekip->logo) }}"
+                                    class="img-fluid shadow-lg"
+                                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 15px"
+                                    alt="{{ $ekip->nom }}"
+                                />
+                            </div>
+                            <h5 class="card-title text-white fw-bold mb-3 fs-4">{{ $ekip->nom }}</h5>
+                            <p class="card-text text-white mb-0">
+                                <i class="bi bi-geo-alt me-1"></i>{{ $ekip->ville }}
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 text-center pb-4">
+                            <span class="badge text-white bg-primary bg-opacity-20 text-primary px-3 py-2 rounded-pill"
+                                >Voir l'équipe</span
+                            >
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </section>
 
-.team-card:hover, .player-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
-    border-color: rgba(255, 107, 53, 0.3);
-}
+    <!-- JOUEURS EUROPÉENS -->
+    <section class="mb-6">
+        <div class="text-center mb-5">
+            <h2 class="display-4 text-white fw-light mb-3">
+                Joueurs <span class="fw-bold text-success">Européens</span>
+            </h2>
+            <div
+                class="mx-auto bg-gradient"
+                style="width: 100px; height: 3px; background: linear-gradient(90deg, #198754, #20c997)"
+            ></div>
+        </div>
+        <div class="row g-4 mb-5">
+            @foreach ($joueursEurope as $joueur)
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <a href="{{ route('joueurs.show', $joueur->id) }}" class="text-decoration-none">
+                    <div
+                        class="card bg-dark border-0 h-100 shadow-lg position-relative overflow-hidden"
+                        style="transition: all 0.4s ease; border-radius: 20px"
+                    >
+                        <div
+                            class="position-absolute top-0 start-0 w-100 h-100 bg-gradient opacity-0"
+                            style="
+                                background: linear-gradient(45deg, rgba(25, 135, 84, 0.1), rgba(32, 201, 151, 0.1));
+                                transition: opacity 0.4s ease;
+                            "
+                        ></div>
+                        <div class="card-body p-4 text-center position-relative">
+                            <div class="mb-4">
+                                <img
+                                    src="{{ asset('storage/'.$joueur->photo->src) }}"
+                                    class="rounded-circle shadow-lg"
+                                    style="width: 120px; height: 120px; object-fit: cover"
+                                    alt="{{ $joueur->nom }}"
+                                />
+                            </div>
+                            <h5 class="card-title text-white fw-bold mb-1 fs-5">{{ $joueur->prenom }}</h5>
+                            <h6 class="card-subtitle text-white-50 mb-3">{{ $joueur->nom }}</h6>
+                            <span class="badge bg-success text-white bg-opacity-20 text-success px-3 py-1 rounded-pill"
+                                >{{ $joueur->equipe->nom }}</span
+                            >
+                        </div>
+                        <div class="card-footer bg-transparent border-0 text-center pb-4">
+                            <span class="badge text-white bg-success bg-opacity-20 text-success px-3 py-2 rounded-pill"
+                                >Voir le profil</span
+                            >
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </section>
 
-.hero-section {
-    transition: all 0.4s ease;
-}
+    <!-- ÉQUIPES MONDIALES -->
+    <section class="mb-6">
+        <div class="text-center mb-5">
+            <h2 class="display-4 text-white fw-light mb-3">
+                Équipes <span class="fw-bold text-warning">Mondiales</span>
+            </h2>
+            <div
+                class="mx-auto bg-gradient"
+                style="width: 100px; height: 3px; background: linear-gradient(90deg, #ffc107, #fd7e14)"
+            ></div>
+        </div>
+        <div class="row g-4 mb-5">
+            @foreach ($equipesMondial as $equipeMonde)
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <a href="{{ route('equipes.show', $equipeMonde->id) }}" class="text-decoration-none">
+                    <div
+                        class="card bg-dark border-0 h-100 shadow-lg position-relative overflow-hidden"
+                        style="transition: all 0.4s ease; border-radius: 20px"
+                    >
+                        <div
+                            class="position-absolute top-0 start-0 w-100 h-100 bg-gradient opacity-0"
+                            style="
+                                background: linear-gradient(45deg, rgba(255, 193, 7, 0.1), rgba(253, 126, 20, 0.1));
+                                transition: opacity 0.4s ease;
+                            "
+                        ></div>
+                        <div class="card-body p-4 text-center position-relative">
+                            <div class="mb-4">
+                                <img
+                                    src="{{ asset($equipeMonde->logo) }}"
+                                    class="img-fluid shadow-lg"
+                                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 15px"
+                                    alt="{{ $equipeMonde->nom }}"
+                                />
+                            </div>
+                            <h5 class="card-title text-white fw-bold mb-3 fs-4">{{ $equipeMonde->nom }}</h5>
+                            <p class="card-text text-white mb-0">
+                                <i class="bi bi-globe me-1"></i>{{ $equipeMonde->ville }}
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 text-center pb-4">
+                            <span class="badge text-white bg-warning bg-opacity-20 text-warning px-3 py-2 rounded-pill"
+                                >Voir l'équipe</span
+                            >
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </section>
 
-.hero-section:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 25px 50px rgba(255, 107, 53, 0.15);
-}
+    <!-- JOUEURS MONDIAUX -->
+    <section class="mb-6">
+        <div class="text-center mb-5">
+            <h2 class="display-4 text-white fw-light mb-3">Joueurs <span class="fw-bold text-info">Mondiaux</span></h2>
+            <div
+                class="mx-auto bg-gradient"
+                style="width: 100px; height: 3px; background: linear-gradient(90deg, #0dcaf0, #6f42c1)"
+            ></div>
+        </div>
+        <div class="row g-4 mb-5">
+            @foreach ($joueursMonde as $joueurMon)
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <a href="{{ route('joueurs.show', $joueurMon->id) }}" class="text-decoration-none">
+                    <div
+                        class="card bg-dark border-0 h-100 shadow-lg position-relative overflow-hidden"
+                        style="transition: all 0.4s ease; border-radius: 20px"
+                    >
+                        <div
+                            class="position-absolute top-0 start-0 w-100 h-100 bg-gradient opacity-0"
+                            style="
+                                background: linear-gradient(45deg, rgba(13, 202, 240, 0.1), rgba(111, 66, 193, 0.1));
+                                transition: opacity 0.4s ease;
+                            "
+                        ></div>
+                        <div class="card-body p-4 text-center position-relative">
+                            <div class="mb-4">
+                                <img
+                                    src="{{ asset('storage/'.$joueurMon->photo->src) }}"
+                                    class="rounded-circle shadow-lg"
+                                    style="width: 120px; height: 120px; object-fit: cover"
+                                    alt="{{ $joueurMon->nom }}"
+                                />
+                            </div>
+                            <h5 class="card-title text-white fw-bold mb-1 fs-5">{{ $joueurMon->prenom }}</h5>
+                            <h6 class="card-subtitle text-white-50 mb-3">{{ $joueurMon->nom }}</h6>
+                            <span class="badge text-white bg-info bg-opacity-20 text-info px-3 py-1 rounded-pill"
+                                >{{ $joueurMon->equipe->nom }}</span
+                            >
+                        </div>
+                        <div class="card-footer bg-transparent border-0 text-center pb-4">
+                            <span class="badge text-white bg-info bg-opacity-20 text-info px-3 py-2 rounded-pill"
+                                >Voir le profil</span
+                            >
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </section>
 
-.badge.bg-primary {
-    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%) !important;
-    border: none;
-}
+    <!-- JOUEURS SANS ÉQUIPE -->
+    <section class="mb-6">
+        <div class="text-center mb-5">
+            <h2 class="display-4 text-white fw-light mb-3">Agents <span class="fw-bold text-danger">Libres</span></h2>
+            <div
+                class="mx-auto bg-gradient"
+                style="width: 100px; height: 3px; background: linear-gradient(90deg, #dc3545, #e83e8c)"
+            ></div>
+        </div>
+        <div class="row g-4 mb-5">
+            @foreach ($joueursFA as $fa)
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <a href="{{ route('joueurs.show', $fa->id) }}" class="text-decoration-none">
+                    <div
+                        class="card bg-dark border-0 h-100 shadow-lg position-relative overflow-hidden"
+                        style="transition: all 0.4s ease; border-radius: 20px"
+                    >
+                        <div
+                            class="position-absolute top-0 start-0 w-100 h-100 bg-gradient opacity-0"
+                            style="
+                                background: linear-gradient(45deg, rgba(220, 53, 69, 0.1), rgba(232, 62, 140, 0.1));
+                                transition: opacity 0.4s ease;
+                            "
+                        ></div>
+                        <div class="card-body p-4 text-center position-relative">
+                            <div class="mb-4">
+                                <img
+                                    src="{{ asset('storage/'.$fa->photo->src) }}"
+                                    class="rounded-circle shadow-lg"
+                                    style="width: 120px; height: 120px; object-fit: cover"
+                                    alt="{{ $fa->nom }}"
+                                />
+                            </div>
+                            <h5 class="card-title text-white fw-bold mb-1 fs-5">{{ $fa->prenom }}</h5>
+                            <h6 class="card-subtitle text-light mb-3">{{ $fa->nom }}</h6>
+                            <span class="badge bg-danger px-3 py-1 rounded-pill">Agent libre</span>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 text-center pb-4">
+                            <span class="badge bg-danger px-3 py-2 rounded-pill">Voir le profil</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </section>
+</div>
 
-.badge.bg-warning {
-    background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%) !important;
-    border: none;
-}
-</style>
 @endsection
-
