@@ -23,23 +23,27 @@
                         <p class="card-text text-capitalize">Position : {{ $joueur->position->position ?? 'Sans position' }}</p>
                         <p class="card-text">Email : {{ $joueur->email }}</p>
                         <p class="card-text">Téléphone : {{ $joueur->tel }}</p>
-                        @canany(['isAdmin', 'isCoach', 'isUser'])
+                        @can('edit-own-player', $joueur)
                         {{-- Boutons delete et edit --}}
                         <div class="d-flex gap-2">
                             {{-- Edit --}}
                             <div>
-                                <a href="{{route('joueurs.edit', $joueur->id)}}" class="btn btn-info">Edit</a>
+                                <a href="{{route('joueurs.edit', $joueur->id)}}" class="btn btn-info">
+                                    <i class="bi bi-pencil me-1"></i>Modifier
+                                </a>
                             </div>
                             {{-- Delete --}}
                             <div>
                                 <form action="{{route('joueurs.destroy', $joueur->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('être vous sûr de vouloir supprimer?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce joueur ?')">
+                                        <i class="bi bi-trash me-1"></i>Supprimer
+                                    </button>
                                 </form>
                             </div>
                         </div>
-                        @endcanany
+                        @endcan
                     </div>
                 </div>
             </div>

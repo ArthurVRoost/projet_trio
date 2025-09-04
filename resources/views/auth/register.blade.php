@@ -1,10 +1,6 @@
 <x-guest-layout>
     <div class="text-center mb-5">
-        <div class="mb-3">
-            <i class="bi bi-person-plus-fill text-primary" style="font-size: 3rem;"></i>
-        </div>
         <h2 class="h3 fw-bold text-white mb-2">Créer un compte</h2>
-        <p class="text-muted">Rejoignez notre communauté</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}">
@@ -17,20 +13,22 @@
                     <i class="bi bi-person me-2 text-primary"></i>
                     Prénom
                 </label>
-                <input id="prenom" 
-                       class="form-control @error('prenom') is-invalid @enderror" 
-                       type="text" 
-                       name="prenom" 
-                       value="{{ old('prenom') }}" 
-                       required 
-                       autofocus 
-                       autocomplete="prenom"
-                       placeholder="Votre prénom">
+                <input
+                    id="prenom"
+                    class="form-control @error('prenom') is-invalid @enderror"
+                    type="text"
+                    name="prenom"
+                    value="{{ old('prenom') }}"
+                    required
+                    autofocus
+                    autocomplete="prenom"
+                    placeholder="Votre prénom"
+                />
                 @error('prenom')
-                    <div class="invalid-feedback">
-                        <i class="bi bi-exclamation-triangle me-1"></i>
-                        {{ $message }}
-                    </div>
+                <div class="invalid-feedback">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
             <div class="col-md-6 mb-4">
@@ -38,19 +36,21 @@
                     <i class="bi bi-person-badge me-2 text-primary"></i>
                     Nom
                 </label>
-                <input id="name" 
-                       class="form-control @error('name') is-invalid @enderror" 
-                       type="text" 
-                       name="name" 
-                       value="{{ old('name') }}" 
-                       required 
-                       autocomplete="name"
-                       placeholder="Votre nom">
+                <input
+                    id="name"
+                    class="form-control @error('name') is-invalid @enderror"
+                    type="text"
+                    name="name"
+                    value="{{ old('name') }}"
+                    required
+                    autocomplete="name"
+                    placeholder="Votre nom"
+                />
                 @error('name')
-                    <div class="invalid-feedback">
-                        <i class="bi bi-exclamation-triangle me-1"></i>
-                        {{ $message }}
-                    </div>
+                <div class="invalid-feedback">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
         </div>
@@ -61,19 +61,21 @@
                 <i class="bi bi-envelope me-2 text-primary"></i>
                 Adresse email
             </label>
-            <input id="email" 
-                   class="form-control @error('email') is-invalid @enderror" 
-                   type="email" 
-                   name="email" 
-                   value="{{ old('email') }}" 
-                   required 
-                   autocomplete="username"
-                   placeholder="votre@email.com">
+            <input
+                id="email"
+                class="form-control @error('email') is-invalid @enderror"
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                required
+                autocomplete="username"
+                placeholder="votre@email.com"
+            />
             @error('email')
-                <div class="invalid-feedback">
-                    <i class="bi bi-exclamation-triangle me-1"></i>
-                    {{ $message }}
-                </div>
+            <div class="invalid-feedback">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                {{ $message }}
+            </div>
             @enderror
         </div>
 
@@ -83,18 +85,20 @@
                 <i class="bi bi-lock me-2 text-primary"></i>
                 Mot de passe
             </label>
-            <input id="password" 
-                   class="form-control @error('password') is-invalid @enderror"
-                   type="password"
-                   name="password"
-                   required 
-                   autocomplete="new-password"
-                   placeholder="Choisissez un mot de passe sécurisé">
+            <input
+                id="password"
+                class="form-control @error('password') is-invalid @enderror"
+                type="password"
+                name="password"
+                required
+                autocomplete="new-password"
+                placeholder="Choisissez un mot de passe sécurisé"
+            />
             @error('password')
-                <div class="invalid-feedback">
-                    <i class="bi bi-exclamation-triangle me-1"></i>
-                    {{ $message }}
-                </div>
+            <div class="invalid-feedback">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                {{ $message }}
+            </div>
             @enderror
         </div>
 
@@ -104,18 +108,20 @@
                 <i class="bi bi-lock-fill me-2 text-primary"></i>
                 Confirmer le mot de passe
             </label>
-            <input id="password_confirmation" 
-                   class="form-control @error('password_confirmation') is-invalid @enderror"
-                   type="password"
-                   name="password_confirmation" 
-                   required 
-                   autocomplete="new-password"
-                   placeholder="Confirmez votre mot de passe">
+            <input
+                id="password_confirmation"
+                class="form-control @error('password_confirmation') is-invalid @enderror"
+                type="password"
+                name="password_confirmation"
+                required
+                autocomplete="new-password"
+                placeholder="Confirmez votre mot de passe"
+            />
             @error('password_confirmation')
-                <div class="invalid-feedback">
-                    <i class="bi bi-exclamation-triangle me-1"></i>
-                    {{ $message }}
-                </div>
+            <div class="invalid-feedback">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                {{ $message }}
+            </div>
             @enderror
         </div>
 
