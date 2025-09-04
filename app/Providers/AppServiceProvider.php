@@ -49,7 +49,8 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define("edit-own-player", function($user, $player) {
             return $user->role_id == 4 || // Admin peut tout modifier
-                   ($user->role_id == 2 && $player->user_id == $user->id); // User peut modifier ses propres joueurs
+                   ($user->role_id == 2 && $player->user_id == $user->id) || // User peut modifier ses propres joueurs
+                   ($user->role_id == 3 && $player->user_id == $user->id); // Coach peut modifier ses propres joueurs
         });
 
         Gate::define("edit-own-team", function($user, $team) {
