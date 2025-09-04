@@ -34,7 +34,7 @@
                 background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2c2c2c 100%);
                 min-height: 100vh;
                 font-weight: 400;
-                padding-top: 2%;
+                padding-top: 5%;
             }
             
             .navbar-dark {
