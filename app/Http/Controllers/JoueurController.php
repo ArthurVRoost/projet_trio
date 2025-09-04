@@ -24,76 +24,84 @@ class JoueurController extends Controller
         return view('joueurs.create', compact('positions', 'equipes', 'genres'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+{
+    $request->validate([
+        'nom'      => 'required|string|max:255',
+        'prenom'   => 'required|string|max:255',
+        'age'      => 'required|integer|min:10|max:40',
+        'tel'      => 'required|string|max:20',
+        'email'    => 'required|email|unique:joueurs,email',
+        'pays'     => 'required|string|max:255',
+        'position' => 'required',
+        'equipe'   => 'required',
+        'genre'    => 'required',
+        'src'      => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
 
-        $request->validate([
-            'nom'      => 'required|string|max:255',
-            'prenom'   => 'required|string|max:255',
-            'age'      => 'required|integer|min:10|max:40',
-            'tel'      => 'required|string|max:20',
-            'email'    => 'required|email|unique:joueurs,email',
-            'pays'     => 'required|string|max:255',
-            'position' => 'required',
-            'equipe'   => 'required',
-            'genre'    => 'required',
-            'src'      => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ],
-[
-            'src.required'   => "L'image est obligatoire.",
-            'src.image'      => "Le fichier doit être une image valide.",
-            'nom.required'   => 'Le nom est obligatoire.',
-            'nom.string'     => 'Le nom doit être une chaîne de caractères.',
-            'prenom.required'=> 'Le prénom est obligatoire.',
-            'prenom.string'  => 'Le prénom doit être une chaîne de caractères.',
-            'email.required'  => "L'adresse mail est obligatoire.",
-            'email.email'     => "L'adresse mail doit être valide."
-        ]);
+    $equipe   = Equipe::find($request->equipe);
+    $position = Position::find($request->position);
 
-        // On va vérifier au début si l'équipe choisie est complète ou non
-
-        $equipe = Equipe::find($request->equipe);
-        if ($equipe->joueur()->count() >= 15) {
-            return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
-        }
-
-        // vérifier que le sexe du joueur / joueuse correspond
-        if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
-            return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
-        }
-
-        $joueur = new Joueur();
-
-        $joueur->nom = $request->nom;
-        $joueur->prenom = $request->prenom;
-        $joueur->age = $request->age;
-        $joueur->tel = $request->tel;
-        $joueur->email = $request->email;
-        $joueur->pays = $request->pays;
-        $joueur->position_id = $request->position;
-        $joueur->equipe_id = $request->equipe;
-        $joueur->genre_id = $request->genre;
-        // le auth()->id() renvoit l'id du user s'il est connecté, sinon null :
-        $joueur->user_id = auth()->id();
-
-        // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger (le joueur doit exister avant la photo dans cette relation one2one) - s'il n'y avait pas de FK, le save aurait été à la fin.
-        $joueur->save();
-
-        // Ajouter la photo :
-        if ($request->hasFile('src')) {
-            $image = $request->file('src');
-            $image_name = time().'_'.$image->getClientOriginalName();
-            $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
-
-            // comme il y a une FK, on accède à 'src' qui se trouve dans la migration 'photos' via la fonction photo() se trouvant dans le modèle, et on crée la photo.
-            // Il n'y a pas de colonne 'photo' dans la migration 'Joueurs', du coup on passe par la relation photo() pour créer un enregistrement de la photo dans la colonne 'src'. on crée une nouvelle photo et on la lie directement au joueur.
-            $joueur->photo()->create([
-                'src' => $path
-            ]);
-        }
-
-        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
-
+    // Vérif équipe pleine
+    if ($equipe->joueur()->count() >= 15) {
+        return redirect()->route('joueurs.create')
+            ->withInput()
+            ->with('error', 'Cette équipe est déjà complète');
     }
+
+    // Vérif sexe
+    if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
+        return redirect()->route('joueurs.create')
+            ->withInput()
+            ->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
+    }
+
+    // Vérif place dispo dans la position (CORRIGÉ : compter par équipe ET position)
+    $joueurs_dans_position = Joueur::where('equipe_id', $request->equipe)
+                                  ->where('position_id', $request->position)
+                                  ->count();
+    
+    if ($joueurs_dans_position >= 3) {
+        // Si toutes les positions sont pleines (= équipe complète)
+        if ($equipe->joueur()->count() >= 15) {
+            // ⚡ On bascule automatiquement dans l'équipe 1
+            $equipe = Equipe::find(1);
+        } else {
+            return redirect()->route('joueurs.create')
+                ->withInput()
+                ->with('error', 'Cette position est complète dans cette équipe.');
+        }
+    }
+
+    // Création joueur
+    $joueur = new Joueur();
+    $joueur->nom        = $request->nom;
+    $joueur->prenom     = $request->prenom;
+    $joueur->age        = $request->age;
+    $joueur->tel        = $request->tel;
+    $joueur->email      = $request->email;
+    $joueur->pays       = $request->pays;
+    $joueur->position_id= $request->position;
+    $joueur->equipe_id  = $equipe->id; // corrigé
+    $joueur->genre_id   = $request->genre;
+    $joueur->user_id    = auth()->id();
+    $joueur->save();
+
+    // Upload photo
+    if ($request->hasFile('src')) {
+        $image = $request->file('src');
+        $image_name = time().'_'.$image->getClientOriginalName();
+        $path = $image->storeAs('joueurs_upload', $image_name, 'public');
+
+        $joueur->photo()->create([
+            'src' => $path
+        ]);
+    }
+
+    return redirect()->route('joueurs.index')
+        ->with('success', 'Joueur/joueuse ajouté-e avec succès !');
+}
+
 
     public function show($id) {
         $joueur = Joueur::find($id);
@@ -143,9 +151,25 @@ class JoueurController extends Controller
         } else {
             $equipe = $joueur->equipe;
         }
+
         // verif sexe
         if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
             return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
+        }
+
+        // Vérification de la position (NOUVELLE VÉRIFICATION AJOUTÉE)
+        if ($request->position != $joueur->position_id || $request->equipe != $joueur->equipe_id) {
+            // Si on change de position ou d'équipe, vérifier la disponibilité
+            $joueurs_dans_position = Joueur::where('equipe_id', $request->equipe)
+                                          ->where('position_id', $request->position)
+                                          ->where('id', '!=', $id) // Exclure le joueur actuel
+                                          ->count();
+            
+            if ($joueurs_dans_position >= 3) {
+                return redirect()->route('joueurs.edit', $id)
+                    ->withInput()
+                    ->with('error', 'Cette position est complète dans cette équipe.');
+            }
         }
 
         
