@@ -14,14 +14,14 @@ class JoueurController extends Controller
         $joueurs = Joueur::with(['photo', 'genre', 'equipe', 'position']) 
                      ->orderBy('prenom', 'asc') 
                      ->get();
-        return view('joueurs/index', compact('joueurs'));
+        return view('joueurs.index', compact('joueurs'));
     }
 
     public function create() {
         $positions = Position::all();
         $equipes = Equipe::all();
         $genres = Genre::whereBetween('id', [1,2])->get();
-        return view('joueurs/create', compact('positions', 'equipes', 'genres'));
+        return view('joueurs.create', compact('positions', 'equipes', 'genres'));
     }
 
     public function store(Request $request) {
@@ -105,7 +105,7 @@ class JoueurController extends Controller
         $positions = Position::all();
         $genres = Genre::whereBetween('id', [1,2])->get();
         $equipes = Equipe::all();
-        return view ('joueurs/edit', compact('joueur', 'positions', 'genres', 'equipes'));
+        return view ('joueurs.edit', compact('joueur', 'positions', 'genres', 'equipes'));
     }
 
     public function update($id, Request $request) {

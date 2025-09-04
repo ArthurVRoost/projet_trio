@@ -28,31 +28,33 @@ class JoueurSeeder extends Seeder
 
 
             
-        Joueur::insert([
-            [
-                'nom' => 'Jeanne',
-                'prenom' => 'Charles',
-                'age' => 25,
-                'tel' => '0123456789',
-                'email' => 'jeannecharles@email.com',
-                'pays' => 'Belgique',
-                'position_id' => 2,
-                'equipe_id' => 1,
-                'genre_id' => 2,
-                'user_id' => null
-            ],
-            [
-                'nom' => 'Declerq',
-                'prenom' => 'Pieter',
-                'age' => 29,
-                'tel' => '0123455689',
-                'email' => 'declerqpieter@email.com',
-                'pays' => 'Pays-Bas',
-                'position_id' => 3,
-                'equipe_id' => 1,
-                'genre_id' => 1,
-                'user_id' => null
-            ],
-        ]);
-    }
+        $joueur1 = Joueur::create([
+            'nom' => 'Jeanne',
+            'prenom' => 'Charles',
+            'age' => 25,
+            'tel' => '0123456789',
+            'email' => 'jeannecharles@email.com',
+            'pays' => 'Belgique',
+            'position_id' => 2,
+            'equipe_id' => 1,
+            'genre_id' => 2,
+            'user_id' => null
+            ]);
+            $joueur1->photo()->create(['src' => 'joueurs_photos/joueur-5.jpeg']);
+
+            $joueur2 = Joueur::create([
+            'nom' => 'Declerq',
+            'prenom' => 'Pieter',
+            'age' => 29,
+            'tel' => '0123455689',
+            'email' => 'declerqpieter@email.com',
+            'pays' => 'Pays-Bas',
+            'position_id' => 3,
+            'equipe_id' => 1,
+            'genre_id' => 1,
+            'user_id' => null
+            ]);
+            $joueur2->photo()->create(['src' => 'joueurs_photos/joueur-1.jpeg']);
+            }
+    
 }

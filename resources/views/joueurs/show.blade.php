@@ -1,45 +1,16 @@
-<<<<<<< HEAD
-=======
-{{-- @extends('') --}}
-{{-- @section('title', 'Détails') --}}
+@extends('layouts.app') 
+@section('title', 'Détails')
 
 
 
-{{-- @section('content') --}}
-
-{{-- @endsection --}}
-
-
->>>>>>> main
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<<<<<<< HEAD
-    <title>Document</title>
-</head>
-<body>
-    <h1>TEST SHOW JOUEURS</h1>
-</body>
-</html>
-=======
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
-
-<section class="pt-4">
+@section('content')
+    <section class="pt-4">
     <div class="container">
         <div class="row justify-content-center">
             {{-- 1ère div --}}
             <div class="col-12 d-flex justify-content-center mb-3">
                 <div class="card" style="width: 22rem;">
-                    <img src="{{  asset('storage/'.$joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
+                    <img src="{{  asset('storage/'.$joueur->photo->src) }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
                         <div class="d-flex justify-content-between">
@@ -76,5 +47,10 @@
         </div>
     </div>
 </section>
+@endsection
 
->>>>>>> main
+
+
+
+
+

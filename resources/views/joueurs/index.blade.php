@@ -32,7 +32,7 @@
                 <div class="col-4 mb-4">
                     <div class="card" style="width: 18rem;">
                         {{-- Ici, ajouter une image par défaut aka un placeholder s'il n'y a pas de photo uploadée --}}
-                        <img src="{{ asset('storage/'.$joueur->photo->src ?? 'default.png') }}" class="card-img-top" alt="...">
+                        <img src="{{ asset('storage/'.$joueur->photo->src) }}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title text-capitalize">{{ $joueur->prenom }} {{ $joueur->nom }}</h5>
                             <div class="d-flex justify-content-between">

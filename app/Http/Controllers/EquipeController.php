@@ -10,10 +10,19 @@ use Illuminate\Http\Request;
 
 class EquipeController extends Controller
 {
-    public function index(){
-        $equipes = Equipe::where('id', '>=', 2)->get();
-        return view('equipes.index', compact('equipes'));
+    public function index(Request $request){
+    $query = Equipe::where('id', '>=', 2);
+    if ($request->filled('continent')) {
+        $query->where('continent_id', $request->continent);
     }
+
+    $equipes = $query->get();
+
+    // on récupère la liste des continents pour le select
+    $continents = Continent::all();
+
+    return view('equipes.index', compact('equipes', 'continents'));
+}
 
     public function create(){
         $continents = Continent::all();
