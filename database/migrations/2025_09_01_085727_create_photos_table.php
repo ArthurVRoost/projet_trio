@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->string('src');
-            $table->foreignId('joueur_id')->constrained('joueurs');
+            // lorsqu'on va supprimer un joueur, on ne va pas forcément supprimer sa photo; elle va rester dans 
+            $table->foreignId('joueur_id')->nullable()->constrained('joueurs')->nullOnDelete();
             $table->timestamps();
         });
     }

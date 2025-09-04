@@ -16,10 +16,13 @@ class JoueurSeeder extends Seeder
             ->count(30)
             ->create()
             ->each(function ($joueur) use ($photos1, $photos2) {
+                // la photo sera attribuée en fonction du sexe du joueur.
+                // si le sexe du joueur est 1 (homme), alors on va choper aléatoirement une photo dans la collection photos1.
                 $src = $joueur->genre_id == 1 ? collect($photos1)->random() : collect($photos2)->random();
 
+                // on crée ensuite la photo liée au joueur créée automatiquement via la factory, en passant par la relation photo() se trouvant dans le modèle 'Joueur'.
                 $joueur->photo()->create([
-                    'src' => 'storage/joueurs_photos/' . $src,
+                    'src' => 'joueurs_photos/' . $src
                 ]);
             });
 

@@ -14,14 +14,14 @@ class JoueurController extends Controller
         $joueurs = Joueur::with(['photo', 'genre', 'equipe', 'position']) 
                      ->orderBy('prenom', 'asc') 
                      ->get();
-        return view('joueurs.index', compact('joueurs'));
+        return view('joueurs/index', compact('joueurs'));
     }
 
     public function create() {
         $positions = Position::all();
         $equipes = Equipe::all();
         $genres = Genre::whereBetween('id', [1,2])->get();
-        return view('joueurs.create', compact('positions', 'equipes', 'genres'));
+        return view('joueurs/create', compact('positions', 'equipes', 'genres'));
     }
 
     public function store(Request $request) {
@@ -45,18 +45,19 @@ class JoueurController extends Controller
             'nom.string'     => 'Le nom doit être une chaîne de caractères.',
             'prenom.required'=> 'Le prénom est obligatoire.',
             'prenom.string'  => 'Le prénom doit être une chaîne de caractères.',
-            'mail.required'  => "L'adresse mail est obligatoire.",
-            'mail.email'     => "L'adresse mail doit être valide."
+            'email.required'  => "L'adresse mail est obligatoire.",
+            'email.email'     => "L'adresse mail doit être valide."
         ]);
 
         // On va vérifier au début si l'équipe choisie est complète ou non
+
         $equipe = Equipe::find($request->equipe);
         if ($equipe->joueur()->count() >= 15) {
             return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
         }
 
         // vérifier que le sexe du joueur / joueuse correspond
-        if ($equipe->genre_id != $request->genre) {
+        if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
             return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
@@ -73,8 +74,8 @@ class JoueurController extends Controller
         $joueur->genre_id = $request->genre;
         // le auth()->id() renvoit l'id du user s'il est connecté, sinon null :
         $joueur->user_id = auth()->id();
-        
-        // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger.
+
+        // on sauvegarde le joueur avant d'ajouter/créer la photo, sinon ça va buger (le joueur doit exister avant la photo dans cette relation one2one) - s'il n'y avait pas de FK, le save aurait été à la fin.
         $joueur->save();
 
         // Ajouter la photo :
@@ -83,12 +84,14 @@ class JoueurController extends Controller
             $image_name = time().'_'.$image->getClientOriginalName();
             $path = $request->file('src')->storeAs('joueurs_upload', $image_name, 'public');
 
+            // comme il y a une FK, on accède à 'src' qui se trouve dans la migration 'photos' via la fonction photo() se trouvant dans le modèle, et on crée la photo.
+            // Il n'y a pas de colonne 'photo' dans la migration 'Joueurs', du coup on passe par la relation photo() pour créer un enregistrement de la photo dans la colonne 'src'. on crée une nouvelle photo et on la lie directement au joueur.
             $joueur->photo()->create([
                 'src' => $path
             ]);
         }
 
-        return redirect()->route('joueurs.create')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
+        return redirect()->route('joueurs.index')->with('success', 'Joueur/joueuse ajouté-e avec succès !');
 
     }
 
@@ -102,7 +105,7 @@ class JoueurController extends Controller
         $positions = Position::all();
         $genres = Genre::whereBetween('id', [1,2])->get();
         $equipes = Equipe::all();
-        return view ('joueurs.edit', compact('joueur', 'positions', 'genres', 'equipes'));
+        return view ('joueurs/edit', compact('joueur', 'positions', 'genres', 'equipes'));
     }
 
     public function update($id, Request $request) {
@@ -110,14 +113,23 @@ class JoueurController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
-            'age' => 'required|integer|min:10|max:100',
+            'age' => 'required|integer|min:10|max:40',
             'tel' => 'nullable|string|max:20',
-            'email' => 'required|email|unique:joueurs,email',
+            'email' => 'required|email|unique:joueurs,email,'.$id,
             'pays' => 'required|string|max:255',
             'position' => 'required',
             'equipe' => 'required',
             'genre' => 'required',
             'src' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ],
+    [
+            'src.image'      => "Le fichier doit être une image valide.",
+            'nom.required'   => 'Le nom est obligatoire.',
+            'nom.string'     => 'Le nom doit être une chaîne de caractères.',
+            'prenom.required'=> 'Le prénom est obligatoire.',
+            'prenom.string'  => 'Le prénom doit être une chaîne de caractères.',
+            'email.required'  => "L'adresse mail est obligatoire.",
+            'email.email'     => "L'adresse mail doit être valide."
         ]);
 
         $joueur = Joueur::find($id);
@@ -125,13 +137,15 @@ class JoueurController extends Controller
         // On vérifie aussi ici qu'il reste de la place dans l'équipe (et que l'équipe choisie est différente de l'équipe actuelle)
         if ($request->equipe != $joueur->equipe_id) {
             $equipe = Equipe::find($request->equipe);
-            if ($equipe->joueur()->count() >=15) {
-                return redirect()->route('joueurs.create')->withInput()->with('error', 'Cette équipe est déjà complète');
+            if ($equipe->joueur()->count() >= 15) {
+                return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Cette équipe est déjà complète');
             }
+        } else {
+            $equipe = $joueur->equipe;
         }
         // verif sexe
-        if ($equipe->genre_id != $request->genre) {
-            return redirect()->route('joueurs.create')->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
+        if ($equipe->genre_id != $request->genre && $equipe->genre_id !== 3) {
+            return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
         
