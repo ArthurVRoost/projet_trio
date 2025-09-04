@@ -429,3 +429,53 @@ body {
 .auth-card .text-decoration-none:hover {
     text-decoration: underline !important;
 }
+
+/* ========================================
+   STYLES POUR LE FOOTER
+   ======================================== */
+
+.footer {
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid #333;
+    padding: 2rem 0;
+    margin-top: auto;
+    text-align: center;
+}
+
+.footer-content {
+    color: #999;
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.footer-heart {
+    color: #ff6b35;
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+.footer-blood {
+    color: #dc3545;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
