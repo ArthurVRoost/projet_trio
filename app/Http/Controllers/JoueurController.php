@@ -50,7 +50,7 @@ class JoueurController extends Controller
     $position = Position::find($request->position);
 
     // Vérif équipe pleine
-    if ($equipe->joueur()->count() >= 15) {
+    if ($equipe->joueur()->count() >= 15 && $equipe->id != 1) {
         return redirect()->route('joueurs.create')
             ->withInput()
             ->with('error', 'Cette équipe est déjà complète');
@@ -162,7 +162,7 @@ class JoueurController extends Controller
         // On vérifie aussi ici qu'il reste de la place dans l'équipe (et que l'équipe choisie est différente de l'équipe actuelle)
         if ($request->equipe != $joueur->equipe_id) {
             $equipe = Equipe::find($request->equipe);
-            if ($equipe->joueur()->count() >= 15) {
+            if ($equipe->joueur()->count() >= 15 && $equipe->id != 1) {
                 return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Cette équipe est déjà complète');
             }
         } else {

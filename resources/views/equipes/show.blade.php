@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $joueur->nom }} {{ $joueur->prenom }}</h5>
                         <p class="card-text">
-                            <strong>Position :</strong> {{ $joueur->position->nom ?? 'Non défini' }}
+                            <strong>Position :</strong> {{ $joueur->position->position ?? 'Non défini' }}
                         </p>
                         <p class="card-text"><strong>Âge :</strong> {{ $joueur->age }} ans</p>
                         <p class="card-text"><strong>Pays :</strong> {{ $joueur->pays }}</p>
