@@ -111,12 +111,18 @@ class JoueurController extends Controller
 
 
     public function show($id) {
-        $joueur = Joueur::find($id);
+        $joueur = Joueur::findOrFail($id);
         return view('joueurs.show', compact('joueur'));
     }
 
     public function edit($id) {
-        $joueur = Joueur::find($id);
+        $joueur = Joueur::findOrFail($id);
+
+        // Vérifier les permissions : admin peut tout modifier, user/coach peut modifier ses propres joueurs
+        if (!Gate::allows('edit-own-player', $joueur)) {
+            abort(403, 'Vous ne pouvez modifier que vos propres joueurs.');
+        }
+
         $positions = Position::all();
         $genres = Genre::whereBetween('id', [1,2])->get();
         $equipes = Equipe::all();
@@ -124,6 +130,12 @@ class JoueurController extends Controller
     }
 
     public function update($id, Request $request) {
+        $joueur = Joueur::findOrFail($id);
+
+        // Vérifier les permissions : admin peut tout modifier, user/coach peut modifier ses propres joueurs
+        if (!Gate::allows('edit-own-player', $joueur)) {
+            abort(403, 'Vous ne pouvez modifier que vos propres joueurs.');
+        }
 
         $request->validate([
             'nom' => 'required|string|max:255',
@@ -146,8 +158,6 @@ class JoueurController extends Controller
             'email.required'  => "L'adresse mail est obligatoire.",
             'email.email'     => "L'adresse mail doit être valide."
         ]);
-
-        $joueur = Joueur::find($id);
 
         // On vérifie aussi ici qu'il reste de la place dans l'équipe (et que l'équipe choisie est différente de l'équipe actuelle)
         if ($request->equipe != $joueur->equipe_id) {
@@ -222,9 +232,9 @@ class JoueurController extends Controller
     }
     
     public function destroy ($id) {
-        $joueur = Joueur::find($id);
+        $joueur = Joueur::findOrFail($id);
 
-        // Vérifier les permissions : admin peut tout supprimer, user peut supprimer ses propres joueurs
+        // Vérifier les permissions : admin peut tout supprimer, user/coach peut supprimer ses propres joueurs
         if (!Gate::allows('edit-own-player', $joueur)) {
             abort(403, 'Vous ne pouvez supprimer que vos propres joueurs.');
         }
