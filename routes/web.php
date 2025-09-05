@@ -36,14 +36,14 @@ Route::middleware('auth')->group(function () {
 // ROUTES UTILISATEURS (User, Coach, Admin)
 // ========================================
 
-Route::middleware(['auth', 'user'])->group(function () {
+
     // Gestion des joueurs - Routes spécifiques AVANT les routes avec paramètres
     Route::get('/joueurs/create', [JoueurController::class, 'create'])->name('joueurs.create');
     Route::post('/joueurs', [JoueurController::class, 'store'])->name('joueurs.store');
     Route::get('/joueurs/{id}/edit', [JoueurController::class, 'edit'])->name('joueurs.edit');
     Route::put('/joueurs/{id}', [JoueurController::class, 'update'])->name('joueurs.update');
     Route::delete('/joueurs/{id}', [JoueurController::class, 'destroy'])->name('joueurs.destroy');
-});
+
 
 // ========================================
 // ROUTES COACHS (Coach, Admin)

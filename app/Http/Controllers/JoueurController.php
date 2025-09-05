@@ -50,7 +50,7 @@ class JoueurController extends Controller
     $position = Position::find($request->position);
 
     // Vérif équipe pleine
-    if ($equipe->joueur()->count() >= 15) {
+    if ($equipe->joueur()->count() >= 15 && $equipe->id != 1) {
         return redirect()->route('joueurs.create')
             ->withInput()
             ->with('error', 'Cette équipe est déjà complète');
@@ -152,7 +152,7 @@ class JoueurController extends Controller
         // On vérifie aussi ici qu'il reste de la place dans l'équipe (et que l'équipe choisie est différente de l'équipe actuelle)
         if ($request->equipe != $joueur->equipe_id) {
             $equipe = Equipe::find($request->equipe);
-            if ($equipe->joueur()->count() >= 15) {
+            if ($equipe->joueur()->count() >= 15 && $equipe->id != 1) {
                 return redirect()->route('joueurs.edit', $id)->withInput()->with('error', 'Cette équipe est déjà complète');
             }
         } else {
@@ -164,13 +164,18 @@ class JoueurController extends Controller
             return redirect()->route('joueurs.edit', $id)->withInput()->with('error', "Le sexe du joueur doit correspondre au sexe de l'équipe sélectionnée");
         }
 
-        // Vérification de la position 
+        // Vérification de la position
+        // Si la position choisie est différente de celle actuelle, ou si l'équipe choisie est différente de celle actuelle.
         if ($request->position != $joueur->position_id || $request->equipe != $joueur->equipe_id) {
-            // Si on change de position ou d'équipe, vérifier la disponibilité
+            // Si on change de position ou d'équipe, on doit vérifier la disponibilité
             $joueurs_dans_position = Joueur::where('equipe_id', $request->equipe)
+                                            // d'abord on vérifie que c'est bien dans l'équipe choisie
                                           ->where('position_id', $request->position)
-                                          ->where('id', '!=', $id) // Exclure le joueur actuel
+                                            // ensuite, on vérifie que c'est la position choisie   
+                                          ->where('id', '!=', $id) // exclure le joueur actuel
+                                            // on exclut donc le joueur du comptage (sinon automatiquement 1 en plus)   
                                           ->count();
+                                            // enfin, on compte
             
             if ($joueurs_dans_position >= 3) {
                 return redirect()->route('joueurs.edit', $id)

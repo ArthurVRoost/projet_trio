@@ -41,7 +41,7 @@ class JoueurSeeder extends Seeder
         
         // Ensuite créer les joueurs via la factory
         Joueur::factory()
-            ->count(45)
+            ->count(75)
             ->create()
             ->each(function ($joueur) use ($photos1, $photos2) {
                 // la photo sera attribuée en fonction du sexe du joueur.
